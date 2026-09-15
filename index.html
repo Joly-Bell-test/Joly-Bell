@@ -1,1 +1,395 @@
+<!-- JOLY.BELL MILITARY FULL - HERO SECTION -->
+<section id="joly-hero" class="joly-hero">
+  
+  <!-- Technical Grid Lines (Decorative) -->
+  <div class="joly-hero__grid-lines">
+    <span class="joly-line joly-line--v1"></span>
+    <span class="joly-line joly-line--v2"></span>
+    <span class="joly-line joly-line--h1"></span>
+  </div>
 
+  <!-- Technical Labels -->
+  <div class="joly-hero__meta joly-hero__meta--left">
+    <span class="joly-meta-text">OBJ / 01</span>
+    <span class="joly-meta-text">VOL / 24L</span>
+    <span class="joly-meta-text">DIM / 48x32x15</span>
+  </div>
+
+  <div class="joly-hero__meta joly-hero__meta--right">
+    <span class="joly-meta-text">JOLY.BELL</span>
+    <span class="joly-meta-text">EST. 2025</span>
+  </div>
+
+  <!-- Main Visual -->
+  <div class="joly-hero__visual">
+    <!-- Placeholder image. Replace src with your Shopify file URL later -->
+    <div class="joly-hero__img-wrapper">
+      <img 
+        src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=1200&q=80" 
+        alt="MILITARY FULL Backpack" 
+        class="joly-hero__img"
+        id="joly-hero-img"
+      >
+      <div class="joly-hero__img-overlay"></div>
+    </div>
+  </div>
+
+  <!-- Typography -->
+  <div class="joly-hero__content">
+    <div class="joly-hero__titles">
+      <h1 class="joly-hero__title joly-hero__title--main">
+        <span class="joly-title-line" data-split>MILITARY</span>
+        <span class="joly-title-line" data-split>FULL</span>
+      </h1>
+      <p class="joly-hero__subtitle">
+        <span class="joly-sub-line" data-split>OBJECT 01 / ENGINEERED FOR THE URBAN ENVIRONMENT</span>
+      </p>
+    </div>
+  </div>
+
+  <!-- Bottom CTA & Scroll Indicator -->
+  <div class="joly-hero__bottom">
+    <a href="#joly-offer" class="joly-hero__cta">
+      <span>DISCOVER</span>
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <path d="M8 3L8 13M8 13L13 8M8 13L3 8" stroke="currentColor" stroke-width="1.5"/>
+      </svg>
+    </a>
+    
+    <div class="joly-hero__scroll">
+      <span class="joly-scroll-text">SCROLL TO EXPLORE</span>
+      <div class="joly-scroll-line"></div>
+    </div>
+  </div>
+
+</section>
+
+<!-- STYLES (Scoped to #joly-hero to prevent Shopify theme conflicts) -->
+<style>
+  /* --- VARIABLES & RESET --- */
+  #joly-hero {
+    --joly-black: #0A0A0A;
+    --joly-white: #F4F4F2;
+    --joly-grey: #666666;
+    --joly-line-color: rgba(244, 244, 242, 0.15);
+    
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    min-height: 600px;
+    background-color: var(--joly-black);
+    color: var(--joly-white);
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; /* Fallback, replace with custom font in Shopify */
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+  }
+
+  #joly-hero *, #joly-hero *::before, #joly-hero *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* --- GRID LINES --- */
+  .joly-hero__grid-lines {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+  }
+  .joly-line {
+    position: absolute;
+    background: var(--joly-line-color);
+    transform: scale(0);
+    transform-origin: top left;
+  }
+  .joly-line--v1 { width: 1px; height: 100%; left: 5%; top: 0; transform-origin: top; }
+  .joly-line--v2 { width: 1px; height: 100%; right: 5%; top: 0; transform-origin: top; }
+  .joly-line--h1 { width: 100%; height: 1px; top: 15%; left: 0; transform-origin: left; }
+
+  /* --- META LABELS --- */
+  .joly-hero__meta {
+    position: absolute;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    opacity: 0;
+  }
+  .joly-hero__meta--left { top: 40px; left: 5%; }
+  .joly-hero__meta--right { top: 40px; right: 5%; text-align: right; }
+  
+  .joly-meta-text {
+    font-family: 'JetBrains Mono', 'Courier New', monospace; /* Monospace fallback */
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--joly-grey);
+    text-transform: uppercase;
+  }
+
+  /* --- VISUAL / IMAGE --- */
+  .joly-hero__visual {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .joly-hero__img-wrapper {
+    position: relative;
+    width: 45vw;
+    max-width: 600px;
+    aspect-ratio: 3/4;
+    overflow: hidden;
+  }
+  .joly-hero__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: blur(40px) grayscale(100%);
+    transform: scale(1.2);
+    opacity: 0;
+    transition: filter 1.5s cubic-bezier(0.16, 1, 0.3, 1), transform 2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .joly-hero__img.is-loaded {
+    filter: blur(0px) grayscale(0%);
+    transform: scale(1);
+    opacity: 1;
+  }
+  .joly-hero__img-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(10,10,10,0.4) 0%, rgba(10,10,10,0.8) 100%);
+    pointer-events: none;
+  }
+
+  /* --- TYPOGRAPHY --- */
+  .joly-hero__content {
+    position: relative;
+    z-index: 5;
+    text-align: center;
+    pointer-events: none;
+  }
+  .joly-hero__titles {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .joly-hero__title {
+    font-size: clamp(60px, 12vw, 160px);
+    font-weight: 800;
+    line-height: 0.85;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    color: var(--joly-white);
+    mix-blend-mode: difference; /* Makes text readable over any image */
+  }
+  .joly-title-line {
+    display: block;
+    overflow: hidden;
+  }
+  .joly-title-line > span, .joly-sub-line > span {
+    display: inline-block;
+    transform: translateY(110%);
+  }
+  
+  .joly-hero__subtitle {
+    margin-top: 30px;
+    overflow: hidden;
+  }
+  .joly-sub-line {
+    display: block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: clamp(10px, 1.2vw, 14px);
+    letter-spacing: 0.2em;
+    color: var(--joly-grey);
+    text-transform: uppercase;
+  }
+
+  /* --- BOTTOM CTA & SCROLL --- */
+  .joly-hero__bottom {
+    position: absolute;
+    bottom: 40px;
+    left: 5%;
+    right: 5%;
+    z-index: 10;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    opacity: 0;
+  }
+  .joly-hero__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    color: var(--joly-white);
+    text-decoration: none;
+    text-transform: uppercase;
+    padding: 12px 0;
+    position: relative;
+    overflow: hidden;
+    pointer-events: auto;
+  }
+  .joly-hero__cta::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: var(--joly-white);
+    transform: scaleX(1);
+    transform-origin: right;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .joly-hero__cta:hover::before {
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+  .joly-hero__cta svg {
+    transition: transform 0.4s ease;
+  }
+  .joly-hero__cta:hover svg {
+    transform: translateY(4px);
+  }
+
+  .joly-hero__scroll {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+  .joly-scroll-text {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--joly-grey);
+  }
+  .joly-scroll-line {
+    width: 1px;
+    height: 40px;
+    background: var(--joly-grey);
+    position: relative;
+    overflow: hidden;
+  }
+  .joly-scroll-line::after {
+    content: '';
+    position: absolute;
+    top: -100%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--joly-white);
+    animation: joly-scroll-anim 2s infinite;
+  }
+  @keyframes joly-scroll-anim {
+    0% { top: -100%; }
+    50% { top: 0%; }
+    100% { top: 100%; }
+  }
+
+  /* --- MOBILE RESPONSIVE --- */
+  @media (max-width: 768px) {
+    .joly-hero__meta--left, .joly-hero__meta--right {
+      top: 20px;
+    }
+    .joly-hero__meta--left { left: 20px; }
+    .joly-hero__meta--right { right: 20px; }
+    
+    .joly-hero__img-wrapper {
+      width: 80vw;
+    }
+    
+    .joly-hero__bottom {
+      bottom: 20px;
+      left: 20px;
+      right: 20px;
+    }
+    .joly-hero__scroll { display: none; /* Hide on mobile to save space */ }
+  }
+</style>
+
+<!-- SCRIPTS (Scoped and isolated) -->
+<script>
+  (function() {
+    // Wait for DOM to be ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initJolyHero);
+    } else {
+      initJolyHero();
+    }
+
+    function initJolyHero() {
+      const hero = document.getElementById('joly-hero');
+      if (!hero) return;
+
+      const img = hero.querySelector('#joly-hero-img');
+      const lines = hero.querySelectorAll('.joly-line');
+      const metas = hero.querySelectorAll('.joly-hero__meta');
+      const titleLines = hero.querySelectorAll('.joly-title-line > span, .joly-sub-line > span');
+      const bottom = hero.querySelector('.joly-hero__bottom');
+
+      // 1. Image Blur to Sharp
+      if (img.complete) {
+        img.classList.add('is-loaded');
+      } else {
+        img.addEventListener('load', () => img.classList.add('is-loaded'));
+      }
+
+      // 2. Animate Lines (Using pure JS/CSS transitions for performance in Shopify)
+      setTimeout(() => {
+        lines.forEach((line, i) => {
+          setTimeout(() => {
+            line.style.transition = 'transform 1.5s cubic-bezier(0.16, 1, 0.3, 1)';
+            line.style.transform = 'scale(1)';
+          }, i * 150);
+        });
+      }, 300);
+
+      // 3. Animate Meta Labels
+      setTimeout(() => {
+        metas.forEach((meta, i) => {
+          setTimeout(() => {
+            meta.style.transition = 'opacity 1s ease, transform 1s ease';
+            meta.style.transform = 'translateY(0)';
+            meta.style.opacity = '1';
+          }, i * 200);
+        });
+      }, 800);
+
+      // 4. Animate Typography (Text Reveal)
+      setTimeout(() => {
+        titleLines.forEach((line, i) => {
+          setTimeout(() => {
+            line.style.transition = 'transform 1.2s cubic-bezier(0.16, 1, 0.3, 1)';
+            line.style.transform = 'translateY(0)';
+          }, i * 100);
+        });
+      }, 1000);
+
+      // 5. Animate Bottom CTA
+      setTimeout(() => {
+        bottom.style.transition = 'opacity 1s ease';
+        bottom.style.opacity = '1';
+      }, 1800);
+
+      // 6. Subtle Parallax on Mouse Move (Desktop only)
+      if (window.innerWidth > 768) {
+        const visual = hero.querySelector('.joly-hero__visual');
+        hero.addEventListener('mousemove', (e) => {
+          const x = (e.clientX / window.innerWidth - 0.5) * 10;
+          const y = (e.clientY / window.innerHeight - 0.5) * 10;
+          visual.style.transform = `translate(${x}px, ${y}px)`;
+          visual.style.transition = 'transform 0.5s ease-out';
+        });
+      }
+    }
+  })();
+</script>
