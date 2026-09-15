@@ -1,1380 +1,912 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JOLY.BELL | MILITARY FULL - OBJECT 01</title>
-    
-    <!-- FONTS -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
-    
-    <!-- GSAP & LENIS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JOLY.BELL — MILITARY FULL / OBJECT 01</title>
+<meta name="description" content="JOLY.BELL — MILITARY FULL. One object, many purposes.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,500;0,700;0,900;1,500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --black:#0a0a0a;
+    --near-black:#121212;
+    --panel:#161615;
+    --white:#f2f1ec;
+    --off:#c9c8c1;
+    --grey:#7a7a74;
+    --line:rgba(242,241,236,0.14);
+    --line-strong:rgba(242,241,236,0.28);
+    --ease:cubic-bezier(.16,.84,.32,1);
+    --vh:1vh;
+  }
 
-    <style>
-        /* =========================================
-           1. CORE VARIABLES & RESET
-           ========================================= */
-        :root {
-            --color-black: #0A0A0A;
-            --color-dark-grey: #1A1A1A;
-            --color-grey: #666666;
-            --color-light-grey: #999999;
-            --color-white: #F4F4F2;
-            --color-accent: #FFFFFF;
-            
-            --font-display: 'Oswald', sans-serif;
-            --font-body: 'Inter', sans-serif;
-            --font-mono: 'JetBrains Mono', monospace;
-            
-            --ease-premium: cubic-bezier(0.16, 1, 0.3, 1);
-            --spacing-container: 5vw;
-        }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:auto;}
+  body{
+    background:var(--black);
+    color:var(--white);
+    font-family:'Archivo',sans-serif;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+    cursor:default;
+  }
+  img{display:block;max-width:100%;}
+  a{color:inherit;text-decoration:none;}
+  button{font-family:inherit;background:none;border:none;color:inherit;cursor:pointer;}
 
-        *, *::before, *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+  .mono{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    letter-spacing:0.08em;
+    color:var(--grey);
+  }
 
-        html {
-            background-color: var(--color-black);
-            color: var(--color-white);
-            font-family: var(--font-body);
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-        }
+  ::selection{background:var(--white);color:var(--black);}
 
-        body {
-            width: 100%;
-            cursor: none; /* Custom cursor */
-        }
+  /* ---------- Focus / a11y ---------- */
+  a:focus-visible, button:focus-visible{
+    outline:1px solid var(--white);
+    outline-offset:4px;
+  }
 
-        /* Noise Overlay for Editorial Texture */
-        .noise-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 9999;
-            opacity: 0.04;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-        }
+  .sr-only{
+    position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
+    clip:rect(0,0,0,0);white-space:nowrap;border:0;
+  }
 
-        /* Custom Cursor */
-        .cursor {
-            position: fixed;
-            width: 12px;
-            height: 12px;
-            background: var(--color-white);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 10000;
-            transform: translate(-50%, -50%);
-            mix-blend-mode: difference;
-            transition: width 0.3s var(--ease-premium), height 0.3s var(--ease-premium);
-        }
-        .cursor.hovered {
-            width: 48px;
-            height: 48px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid var(--color-white);
-        }
+  /* ---------- Loader ---------- */
+  #loader{
+    position:fixed;inset:0;background:var(--black);z-index:999;
+    display:flex;align-items:center;justify-content:center;
+  }
+  #loader .lw{
+    font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.2em;color:var(--grey);
+    display:flex;flex-direction:column;align-items:center;gap:18px;
+  }
+  #loader .bar{width:160px;height:1px;background:var(--line);position:relative;overflow:hidden;}
+  #loader .bar span{position:absolute;left:0;top:0;height:100%;width:0%;background:var(--white);}
 
-        /* Typography Utilities */
-        .text-display {
-            font-family: var(--font-display);
-            text-transform: uppercase;
-            line-height: 0.9;
-            letter-spacing: -0.02em;
-        }
-        .text-mono {
-            font-family: var(--font-mono);
-            font-size: 11px;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            color: var(--color-light-grey);
-        }
-        .clip-text {
-            overflow: hidden;
-            display: block;
-        }
-        .clip-text-inner {
-            display: block;
-            transform: translateY(110%);
-        }
+  /* ---------- Nav ---------- */
+  header.site-nav{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:26px 40px;
+    mix-blend-mode:difference;
+  }
+  .nav-mark{font-weight:900;font-size:15px;letter-spacing:0.02em;}
+  .nav-links{display:flex;gap:28px;}
+  .nav-links a{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.08em;color:var(--off);}
+  .nav-links a:hover{color:var(--white);}
+  .nav-index{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--off);}
+  @media (max-width:720px){ .nav-links{display:none;} header.site-nav{padding:18px 20px;} }
 
-        /* Image Placeholder Base */
-        .img-placeholder {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            /* Fallback gradient if image fails */
-            background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
-        }
+  /* ---------- Section shell ---------- */
+  section{position:relative;width:100%;}
+  .wrap{max-width:1400px;margin:0 auto;padding:0 40px;}
+  @media (max-width:720px){ .wrap{padding:0 20px;} }
 
-        /* =========================================
-           2. SECTIONS
-           ========================================= */
-        section {
-            position: relative;
-            width: 100%;
-        }
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;color:var(--grey);
+    display:flex;align-items:center;gap:10px;
+  }
+  .eyebrow .dash{width:24px;height:1px;background:var(--line-strong);}
 
-        /* --- SECTION 01: HERO --- */
-        #hero {
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            background: var(--color-black);
-        }
-        .hero-lines {
-            position: absolute;
-            inset: 0;
-            pointer-events: none;
-        }
-        .hero-line {
-            position: absolute;
-            background: rgba(255,255,255,0.1);
-        }
-        .hero-line-v1 { width: 1px; height: 100%; left: var(--spacing-container); top: 0; transform-origin: top; transform: scaleY(0); }
-        .hero-line-v2 { width: 1px; height: 100%; right: var(--spacing-container); top: 0; transform-origin: top; transform: scaleY(0); }
-        .hero-line-h1 { width: 100%; height: 1px; top: 15%; left: 0; transform-origin: left; transform: scaleX(0); }
-        
-        .hero-meta {
-            position: absolute;
-            top: 40px;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            opacity: 0;
-        }
-        .hero-meta.left { left: var(--spacing-container); }
-        .hero-meta.right { right: var(--spacing-container); text-align: right; }
+  /* ---------- Placeholder visual system ----------
+     background-image stacks two layers: the real photo path first,
+     then a generated placeholder underneath. Missing files simply don't
+     paint, so the placeholder shows through with zero layout change.
+     Drop a real file at the same path later and it appears automatically. */
+  .ph{
+    position:relative;
+    background-repeat:no-repeat;
+    background-position:center;
+    background-size:cover;
+    overflow:hidden;
+  }
+  .ph::after{
+    content:"";
+    position:absolute;inset:0;
+    background-image:
+      repeating-linear-gradient(135deg, rgba(242,241,236,0.035) 0px, rgba(242,241,236,0.035) 1px, transparent 1px, transparent 14px);
+    pointer-events:none;
+  }
+  .ph-tag{
+    position:absolute;bottom:14px;right:16px;z-index:2;
+    font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.08em;color:rgba(242,241,236,0.4);
+    pointer-events:none;
+  }
+  .ph-1{background-image:url('assets/images/hero.jpg'), linear-gradient(160deg,#1c1c1a 0%, #0d0d0c 55%, #232320 100%);}
+  .ph-2{background-image:url('assets/images/product-main.jpg'), linear-gradient(200deg,#181817 0%, #0a0a0a 60%);}
+  .ph-3a{background-image:url('assets/images/reveal-01.jpg'), linear-gradient(180deg,#141413,#0c0c0b);}
+  .ph-3b{background-image:url('assets/images/reveal-02.jpg'), linear-gradient(180deg,#161615,#0a0a09);}
+  .ph-3c{background-image:url('assets/images/reveal-03.jpg'), linear-gradient(180deg,#121211,#0b0b0a);}
+  .ph-4{background-image:url('assets/images/benefit.jpg'), linear-gradient(210deg,#1a1a18,#0a0a0a);}
+  .ph-5{background-image:url('assets/images/blueprint.jpg'), linear-gradient(190deg,#e9e7de,#d8d6cb);}
+  .ph-6a{background-image:url('assets/images/detail-01.jpg'), radial-gradient(circle at 30% 30%,#232320,#0a0a0a 70%);}
+  .ph-6b{background-image:url('assets/images/detail-02.jpg'), radial-gradient(circle at 60% 40%,#1e1e1c,#0a0a0a 70%);}
+  .ph-6c{background-image:url('assets/images/detail-03.jpg'), radial-gradient(circle at 40% 60%,#201f1c,#0a0a0a 70%);}
+  .ph-7a{background-image:url('assets/images/testimonial-01.jpg'), linear-gradient(200deg,#1a1a19,#0a0a0a);}
+  .ph-7b{background-image:url('assets/images/testimonial-02.jpg'), linear-gradient(200deg,#171716,#0a0a0a);}
+  .ph-8{background-image:url('assets/images/offer.jpg'), linear-gradient(190deg,#191918,#0a0a0a);}
+  .ph-9a{background-image:url('assets/images/compare-jb.jpg'), linear-gradient(180deg,#151513,#0a0a0a);}
+  .ph-9b{background-image:url('assets/images/compare-std.jpg'), linear-gradient(180deg,#1a1a1a,#101010);}
+  .ph-11{background-image:url('assets/images/final.jpg'), radial-gradient(circle at 50% 40%,#1c1c19 0%,#050504 75%);}
 
-        .hero-visual {
-            position: absolute;
-            width: 40vw;
-            max-width: 500px;
-            aspect-ratio: 3/4;
-            overflow: hidden;
-            z-index: 1;
-        }
-        .hero-visual img {
-            filter: blur(30px) grayscale(100%);
-            transform: scale(1.2);
-        }
+  /* =========================================================
+     SECTION 01 — HERO
+  ========================================================= */
+  #hero{height:100svh;min-height:560px;display:flex;flex-direction:column;justify-content:flex-end;}
+  #hero .ph-1{position:absolute;inset:0;}
+  #hero .hero-fade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,10,10,0.15) 0%, rgba(10,10,10,0.15) 55%, rgba(10,10,10,0.92) 100%);}
+  #hero .hero-content{position:relative;z-index:2;padding:0 40px 64px;}
+  #hero .hero-top{position:relative;z-index:2;padding:100px 40px 0;display:flex;justify-content:space-between;align-items:flex-start;}
+  #hero .obj-label{writing-mode:vertical-rl;text-orientation:mixed;}
+  .h1-brand{
+    font-weight:900;
+    font-size:clamp(54px,11vw,168px);
+    line-height:0.86;
+    letter-spacing:-0.01em;
+    overflow:hidden;
+  }
+  .h1-brand span{display:inline-block;transform:translateY(110%);}
+  .hero-sub{
+    max-width:420px;margin-top:22px;
+    font-size:15px;line-height:1.6;color:var(--off);
+    opacity:0;
+  }
+  .hero-meta{display:flex;justify-content:space-between;align-items:flex-end;margin-top:40px;}
+  .cta{
+    display:inline-flex;align-items:center;gap:10px;
+    font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.1em;
+    padding:16px 26px;border:1px solid var(--line-strong);
+    transition:background .4s var(--ease), color .4s var(--ease), border-color .4s var(--ease);
+  }
+  .cta:hover{background:var(--white);color:var(--black);border-color:var(--white);}
+  .scroll-cue{
+    font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.08em;color:var(--off);
+    display:flex;flex-direction:column;align-items:center;gap:8px;opacity:0;
+  }
+  .scroll-cue .stick{width:1px;height:26px;background:var(--line-strong);position:relative;overflow:hidden;}
+  .scroll-cue .stick i{display:block;width:100%;height:40%;background:var(--white);position:absolute;top:-40%;animation:drip 1.8s var(--ease) infinite;}
+  @keyframes drip{ to{ top:140%; } }
 
-        .hero-content {
-            position: relative;
-            z-index: 2;
-            text-align: center;
-            mix-blend-mode: difference;
-        }
-        .hero-title {
-            font-size: clamp(60px, 14vw, 180px);
-            color: var(--color-white);
-        }
-        .hero-subtitle {
-            margin-top: 20px;
-        }
+  /* =========================================================
+     SECTION 02 — PROBLEM
+  ========================================================= */
+  #problem{min-height:100vh;padding:22vh 0;display:flex;align-items:center;}
+  #problem .lines{display:flex;flex-direction:column;gap:2px;}
+  .line-op{
+    font-weight:900;
+    font-size:clamp(34px,7.4vw,108px);
+    line-height:1.02;letter-spacing:-0.01em;
+    color:var(--grey);
+  }
+  .line-op.on{color:var(--white);}
+  #problem .sub-lines{margin-top:56px;display:flex;flex-direction:column;gap:10px;}
+  #problem .sub-lines p{
+    font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.04em;color:var(--off);
+  }
+  #problem .final-line{margin-top:52px;font-weight:700;font-size:clamp(24px,3.6vw,40px);}
 
-        .hero-bottom {
-            position: absolute;
-            bottom: 40px;
-            left: var(--spacing-container);
-            right: var(--spacing-container);
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            opacity: 0;
-            z-index: 3;
-        }
-        .btn-discover {
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            color: var(--color-white);
-            text-decoration: none;
-            font-family: var(--font-mono);
-            font-size: 12px;
-            letter-spacing: 0.15em;
-            position: relative;
-            padding-bottom: 4px;
-        }
-        .btn-discover::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 1px;
-            background: var(--color-white);
-            transform: scaleX(1);
-            transform-origin: right;
-            transition: transform 0.6s var(--ease-premium);
-        }
-        .btn-discover:hover::after {
-            transform: scaleX(0);
-            transform-origin: left;
-        }
-        .scroll-indicator {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-        }
-        .scroll-line {
-            width: 1px;
-            height: 40px;
-            background: var(--color-grey);
-            position: relative;
-            overflow: hidden;
-        }
-        .scroll-line::after {
-            content: '';
-            position: absolute;
-            top: -100%;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--color-white);
-            animation: scrollDown 2s infinite;
-        }
-        @keyframes scrollDown {
-            0% { top: -100%; }
-            100% { top: 100%; }
-        }
+  /* =========================================================
+     SECTION 03 — REVEAL
+  ========================================================= */
+  #reveal{min-height:120vh;padding:16vh 0 10vh;}
+  #reveal .panels{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:6px;
+    height:70vh;min-height:420px;margin-top:60px;
+  }
+  #reveal .panel{position:relative;}
+  #reveal .after-text{margin-top:56px;display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:20px;}
+  #reveal .after-text h3{font-weight:900;font-size:clamp(28px,4.6vw,58px);line-height:1.05;}
+  @media (max-width:720px){ #reveal .panels{grid-template-columns:1fr;height:auto;} #reveal .panel{height:200px;} }
 
-        /* --- SECTION 02: PROBLEM --- */
-        #problem {
-            min-height: 300vh;
-            background: var(--color-black);
-            padding: 20vh var(--spacing-container);
-        }
-        .problem-text-wrapper {
-            position: sticky;
-            top: 30vh;
-        }
-        .problem-line {
-            font-size: clamp(40px, 8vw, 120px);
-            color: var(--color-grey);
-            margin-bottom: 2vh;
-            transition: color 0.5s ease, filter 0.5s ease, transform 0.5s ease;
-            filter: blur(4px);
-            transform: translateY(20px);
-        }
-        .problem-line.active {
-            color: var(--color-white);
-            filter: blur(0px);
-            transform: translateY(0);
-        }
-        .problem-line.final {
-            color: var(--color-white);
-            margin-top: 10vh;
-            font-size: clamp(50px, 10vw, 140px);
-        }
+  /* =========================================================
+     SECTION 04 — BENEFITS (sticky)
+  ========================================================= */
+  #benefits{padding:14vh 0;}
+  .benefits-grid{
+    display:grid;grid-template-columns:0.9fr 1.1fr;gap:60px;align-items:start;
+  }
+  .benefits-left{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;justify-content:center;}
+  .benefits-left h2{font-weight:900;font-size:clamp(30px,4vw,52px);margin-bottom:40px;line-height:1.05;}
+  .benefit-states{position:relative;height:150px;}
+  .benefit-state{
+    position:absolute;inset:0;opacity:0;transform:translateY(16px);
+  }
+  .benefit-state .num{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--grey);margin-bottom:12px;}
+  .benefit-state h3{font-weight:700;font-size:clamp(22px,2.6vw,32px);margin-bottom:10px;}
+  .benefit-state p{color:var(--off);font-size:14px;line-height:1.6;max-width:360px;}
+  .benefit-visual{height:340vh;position:relative;}
+  .benefit-visual-inner{position:sticky;top:12vh;height:76vh;overflow:hidden;}
+  .benefit-visual-inner .ph{position:absolute;inset:0;transform:scale(1.04);}
+  @media (max-width:900px){
+    .benefits-grid{grid-template-columns:1fr;}
+    .benefits-left{position:static;height:auto;padding-bottom:20px;}
+    .benefit-visual{height:auto;}
+    .benefit-visual-inner{position:static;height:50vh;}
+    .benefit-states{height:auto;}
+    .benefit-state{position:static;opacity:1;transform:none;display:none;}
+    .benefit-state.mobile-on{display:block;}
+  }
 
-        /* --- SECTION 03: REVEAL --- */
-        #reveal {
-            height: 100vh;
-            background: var(--color-black);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
-        .reveal-container {
-            width: 80vw;
-            max-width: 1000px;
-            aspect-ratio: 16/9;
-            display: flex;
-            gap: 4px;
-            margin-bottom: 40px;
-        }
-        .reveal-panel {
-            flex: 1;
-            overflow: hidden;
-            position: relative;
-            /* REPLACE WITH: assets/images/product-main.jpg */
-            background-image: url('https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=1200&q=80');
-            background-size: 400% 100%; /* 4 panels */
-            background-position: var(--bg-pos, 0% 50%);
-            filter: grayscale(100%);
-            transition: filter 1s ease;
-        }
-        .reveal-panel.merged {
-            filter: grayscale(0%);
-        }
-        .reveal-text {
-            text-align: center;
-        }
-        .reveal-text h2 {
-            font-size: clamp(30px, 5vw, 60px);
-            margin-bottom: 20px;
-        }
-        .reveal-tags {
-            display: flex;
-            gap: 40px;
-            justify-content: center;
-        }
+  /* =========================================================
+     SECTION 05 — PRODUCT LAB
+  ========================================================= */
+  #lab{background:var(--white);color:var(--black);padding:16vh 0;}
+  #lab .eyebrow{color:#6f6e67;}
+  #lab .eyebrow .dash{background:rgba(10,10,10,0.25);}
+  #lab h2{font-weight:900;font-size:clamp(30px,4vw,52px);margin:20px 0 60px;max-width:640px;line-height:1.06;}
+  .lab-stage{position:relative;aspect-ratio:16/10;max-height:76vh;}
+  .lab-stage .ph{position:absolute;inset:0;filter:grayscale(0.15);}
+  .lab-point{position:absolute;width:10px;height:10px;}
+  .lab-point .dot{width:10px;height:10px;border-radius:50%;background:var(--black);position:relative;}
+  .lab-point .ring{position:absolute;inset:-8px;border:1px solid rgba(10,10,10,0.4);border-radius:50%;opacity:0;}
+  .lab-point.active .ring{opacity:1;}
+  .lab-point .lbl{
+    position:absolute;left:20px;top:-6px;white-space:nowrap;
+    font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.06em;
+    display:flex;align-items:center;gap:8px;opacity:0;transform:translateX(-6px);
+  }
+  .lab-point.active .lbl{opacity:1;transform:translateX(0);}
+  .lab-point .lbl .ln{width:20px;height:1px;background:rgba(10,10,10,0.5);}
+  .lab-point .num{font-family:'IBM Plex Mono',monospace;font-weight:500;}
+  @media (max-width:720px){ .lab-point .lbl{position:static;opacity:1;transform:none;margin-top:6px;} .lab-point{position:static;display:flex;align-items:center;gap:10px;margin-bottom:18px;} .lab-point .ring{display:none;} }
 
-        /* --- SECTION 04: BENEFITS --- */
-        #benefits {
-            background: var(--color-dark-grey);
-            padding: 10vh var(--spacing-container);
-        }
-        .benefits-grid {
-            display: grid;
-            grid-template-columns: 1fr 1.5fr;
-            gap: 5vw;
-            min-height: 80vh;
-        }
-        .benefits-left {
-            position: sticky;
-            top: 20vh;
-            height: fit-content;
-        }
-        .benefit-item {
-            margin-bottom: 60px;
-            opacity: 0.3;
-            transform: translateY(20px);
-            transition: all 0.6s var(--ease-premium);
-        }
-        .benefit-item.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        .benefit-num {
-            font-family: var(--font-mono);
-            font-size: 14px;
-            color: var(--color-light-grey);
-            margin-bottom: 10px;
-            display: block;
-        }
-        .benefit-title {
-            font-family: var(--font-display);
-            font-size: clamp(30px, 4vw, 50px);
-            text-transform: uppercase;
-            margin-bottom: 15px;
-        }
-        .benefit-desc {
-            font-size: 16px;
-            line-height: 1.6;
-            color: var(--color-light-grey);
-            max-width: 400px;
-        }
-        .benefits-right {
-            position: relative;
-            height: 60vh;
-            overflow: hidden;
-        }
-        .benefit-img {
-            position: absolute;
-            inset: 0;
-            opacity: 0;
-            transition: opacity 0.8s ease, transform 0.8s var(--ease-premium);
-            transform: scale(1.1);
-        }
-        .benefit-img.active {
-            opacity: 1;
-            transform: scale(1);
-        }
+  /* =========================================================
+     SECTION 06 — MATERIAL / DETAILS
+  ========================================================= */
+  #material{padding:18vh 0 14vh;}
+  #material h2{font-weight:900;font-size:clamp(30px,4.4vw,56px);margin-bottom:60px;}
+  .material-row{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;}
+  .material-cell{position:relative;aspect-ratio:3/4;overflow:hidden;}
+  .material-cell .ph{position:absolute;inset:0;transform:scale(1.5);transform-origin:center;}
+  .material-cell .cap{position:absolute;left:14px;bottom:14px;z-index:2;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.06em;color:var(--off);}
+  @media (max-width:720px){ .material-row{grid-template-columns:1fr;} }
 
-        /* --- SECTION 05: PRODUCT LAB --- */
-        #product-lab {
-            background: var(--color-white);
-            color: var(--color-black);
-            padding: 15vh var(--spacing-container);
-            position: relative;
-        }
-        .lab-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            position: relative;
-        }
-        .lab-image-wrapper {
-            width: 100%;
-            aspect-ratio: 4/5;
-            position: relative;
-            overflow: hidden;
-        }
-        .lab-image-wrapper img {
-            /* REPLACE WITH: assets/images/product-lab.jpg */
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            filter: grayscale(100%) contrast(1.1);
-        }
-        .lab-point {
-            position: absolute;
-            width: 12px;
-            height: 12px;
-            background: var(--color-black);
-            border-radius: 50%;
-            cursor: pointer;
-            z-index: 10;
-        }
-        .lab-point::after {
-            content: '';
-            position: absolute;
-            inset: -4px;
-            border: 1px solid var(--color-black);
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 1; }
-            100% { transform: scale(2); opacity: 0; }
-        }
-        .lab-label {
-            position: absolute;
-            font-family: var(--font-mono);
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            white-space: nowrap;
-            opacity: 0;
-            transform: translateX(-10px);
-            transition: all 0.4s var(--ease-premium);
-        }
-        .lab-point:hover .lab-label, .lab-point.active .lab-label {
-            opacity: 1;
-            transform: translateX(0);
-        }
-        /* SVG Lines container */
-        .lab-lines {
-            position: absolute;
-            inset: 0;
-            pointer-events: none;
-        }
-        .lab-lines line {
-            stroke: var(--color-black);
-            stroke-width: 1;
-            stroke-dasharray: 200;
-            stroke-dashoffset: 200;
-            transition: stroke-dashoffset 1s var(--ease-premium);
-        }
-        .lab-lines line.drawn {
-            stroke-dashoffset: 0;
-        }
+  /* =========================================================
+     SECTION 07 — SOCIAL PROOF
+  ========================================================= */
+  #proof{padding:16vh 0;}
+  #proof h2{font-weight:900;font-size:clamp(28px,3.8vw,46px);margin-bottom:60px;}
+  .proof-row{display:grid;grid-template-columns:repeat(2,1fr);gap:40px;}
+  .proof-card{border-top:1px solid var(--line);padding-top:26px;}
+  .proof-card .ph{aspect-ratio:4/5;margin-bottom:24px;}
+  .proof-num{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--grey);margin-bottom:14px;}
+  .proof-quote{font-size:clamp(18px,2vw,24px);line-height:1.4;font-weight:500;margin-bottom:16px;}
+  .proof-meta{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.06em;color:var(--grey);}
+  @media (max-width:720px){ .proof-row{grid-template-columns:1fr;gap:56px;} }
 
-        /* --- SECTION 06: MATERIAL --- */
-        #material {
-            background: var(--color-black);
-            padding: 10vh 0;
-            overflow: hidden;
-        }
-        .material-header {
-            padding: 0 var(--spacing-container);
-            margin-bottom: 10vh;
-        }
-        .material-header h2 {
-            font-size: clamp(40px, 8vw, 100px);
-        }
-        .material-scroll {
-            display: flex;
-            gap: 5vw;
-            padding: 0 var(--spacing-container);
-            width: max-content;
-        }
-        .material-card {
-            width: 40vw;
-            min-width: 300px;
-            aspect-ratio: 3/4;
-            position: relative;
-            overflow: hidden;
-        }
-        .material-card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 1.5s var(--ease-premium);
-        }
-        .material-card:hover img {
-            transform: scale(1.1);
-        }
-        .material-card-label {
-            position: absolute;
-            bottom: 20px;
-            left: 20px;
-            font-family: var(--font-mono);
-            font-size: 12px;
-            background: rgba(0,0,0,0.7);
-            padding: 8px 12px;
-            backdrop-filter: blur(4px);
-        }
+  /* =========================================================
+     SECTION 08 — OFFER
+  ========================================================= */
+  #offer{padding:16vh 0;}
+  .offer-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;}
+  .offer-visual{position:relative;aspect-ratio:1/1;}
+  .offer-name{font-weight:900;font-size:clamp(30px,4vw,50px);line-height:1.04;margin-bottom:10px;}
+  .offer-obj{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--grey);margin-bottom:30px;}
+  .offer-price{font-weight:700;font-size:clamp(30px,3.2vw,40px);margin-bottom:6px;}
+  .offer-avail{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--off);margin-bottom:36px;}
+  .offer-list{border-top:1px solid var(--line);margin-bottom:36px;}
+  .offer-list div{
+    display:flex;justify-content:space-between;padding:16px 0;border-bottom:1px solid var(--line);
+    font-size:14px;color:var(--off);
+  }
+  .offer-list span:last-child{color:var(--white);font-family:'IBM Plex Mono',monospace;font-size:11px;}
+  .big-cta{
+    display:inline-flex;align-items:center;justify-content:space-between;gap:20px;
+    width:100%;padding:22px 26px;border:1px solid var(--line-strong);
+    font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.1em;
+    position:relative;overflow:hidden;
+  }
+  .big-cta span{position:relative;z-index:2;transition:color .5s var(--ease);}
+  .big-cta::before{
+    content:"";position:absolute;left:0;top:0;bottom:0;width:0;background:var(--white);
+    transition:width .5s var(--ease);z-index:1;
+  }
+  .big-cta:hover::before{width:100%;}
+  .big-cta:hover span{color:var(--black);}
+  @media (max-width:820px){ .offer-grid{grid-template-columns:1fr;} }
 
-        /* --- SECTION 07: SOCIAL PROOF --- */
-        #social-proof {
-            background: var(--color-dark-grey);
-            padding: 15vh var(--spacing-container);
-        }
-        .testimonial {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 5vw;
-            margin-bottom: 15vh;
-            align-items: center;
-        }
-        .testimonial:nth-child(even) {
-            direction: rtl; /* Flip layout */
-        }
-        .testimonial:nth-child(even) > * {
-            direction: ltr;
-        }
-        .testimonial-img {
-            width: 100%;
-            aspect-ratio: 4/5;
-            overflow: hidden;
-        }
-        .testimonial-img img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            filter: grayscale(100%);
-        }
-        .testimonial-content {
-            padding: 40px;
-        }
-        .testimonial-num {
-            font-family: var(--font-mono);
-            font-size: 14px;
-            color: var(--color-grey);
-            margin-bottom: 30px;
-            display: block;
-        }
-        .testimonial-quote {
-            font-family: var(--font-display);
-            font-size: clamp(24px, 3vw, 40px);
-            line-height: 1.2;
-            margin-bottom: 30px;
-        }
-        .testimonial-author {
-            font-family: var(--font-mono);
-            font-size: 12px;
-            letter-spacing: 0.15em;
-            color: var(--color-light-grey);
-        }
+  /* =========================================================
+     SECTION 09 — COMPARISON
+  ========================================================= */
+  #compare{padding:16vh 0;}
+  #compare h2{font-weight:900;font-size:clamp(28px,3.8vw,46px);margin-bottom:60px;text-align:center;}
+  .compare-split{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--line);}
+  .compare-col{padding:34px 30px;}
+  .compare-col:first-child{border-right:1px solid var(--line);}
+  .compare-col .ph{aspect-ratio:5/3;margin-bottom:24px;}
+  .compare-col h3{font-weight:800;font-size:clamp(18px,2vw,24px);margin-bottom:24px;}
+  .compare-row{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-top:1px solid var(--line);font-size:14px;}
+  .compare-row:last-child{border-bottom:1px solid var(--line);}
+  .compare-row .label{color:var(--off);font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.05em;}
+  .compare-row .mark{font-size:15px;}
+  .mark.yes{color:var(--white);}
+  .mark.no{color:var(--grey);}
+  @media (max-width:720px){ .compare-split{grid-template-columns:1fr;} .compare-col:first-child{border-right:none;border-bottom:1px solid var(--line);} }
 
-        /* --- SECTION 08: OFFER --- */
-        #offer {
-            background: var(--color-white);
-            color: var(--color-black);
-            padding: 15vh var(--spacing-container);
-            text-align: center;
-        }
-        .offer-container {
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        .offer-title {
-            font-size: clamp(40px, 6vw, 80px);
-            margin-bottom: 10px;
-        }
-        .offer-subtitle {
-            font-family: var(--font-mono);
-            font-size: 14px;
-            color: var(--color-grey);
-            margin-bottom: 40px;
-        }
-        .offer-price {
-            font-family: var(--font-display);
-            font-size: 48px;
-            margin-bottom: 40px;
-        }
-        .offer-included {
-            text-align: left;
-            margin: 40px 0;
-            padding: 30px;
-            border: 1px solid rgba(0,0,0,0.1);
-        }
-        .offer-included h4 {
-            font-family: var(--font-mono);
-            font-size: 12px;
-            letter-spacing: 0.15em;
-            margin-bottom: 20px;
-            color: var(--color-grey);
-        }
-        .offer-included ul {
-            list-style: none;
-        }
-        .offer-included li {
-            padding: 10px 0;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-            font-size: 16px;
-        }
-        .btn-buy {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            padding: 24px;
-            background: var(--color-black);
-            color: var(--color-white);
-            font-family: var(--font-mono);
-            font-size: 14px;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            text-decoration: none;
-            position: relative;
-            overflow: hidden;
-            transition: color 0.4s ease;
-        }
-        .btn-buy::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--color-grey);
-            transform: scaleX(0);
-            transform-origin: right;
-            transition: transform 0.6s var(--ease-premium);
-            z-index: 0;
-        }
-        .btn-buy:hover::before {
-            transform: scaleX(1);
-            transform-origin: left;
-        }
-        .btn-buy span {
-            position: relative;
-            z-index: 1;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+  /* =========================================================
+     SECTION 10 — FAQ
+  ========================================================= */
+  #faq{padding:16vh 0;background:var(--black);}
+  #faq h2{font-weight:900;font-size:clamp(38px,7vw,90px);margin-bottom:60px;}
+  .faq-item{border-top:1px solid var(--line);}
+  .faq-item:last-child{border-bottom:1px solid var(--line);}
+  .faq-q{
+    width:100%;display:flex;justify-content:space-between;align-items:center;
+    padding:26px 0;text-align:left;font-size:clamp(16px,2vw,20px);font-weight:500;
+  }
+  .faq-q .qnum{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--grey);margin-right:18px;}
+  .faq-q .qtxt{flex:1;}
+  .faq-toggle{position:relative;width:16px;height:16px;flex-shrink:0;margin-left:20px;}
+  .faq-toggle i{position:absolute;background:var(--white);transition:transform .4s var(--ease);}
+  .faq-toggle i.h{left:0;top:50%;width:16px;height:1px;transform:translateY(-50%);}
+  .faq-toggle i.v{top:0;left:50%;width:1px;height:16px;transform:translateX(-50%);}
+  .faq-item.open .faq-toggle i.v{transform:translateX(-50%) scaleY(0);}
+  .faq-a{height:0;overflow:hidden;opacity:0;transition:height .45s var(--ease), opacity .4s var(--ease);}
+  .faq-a p{padding:0 0 28px 34px;color:var(--off);font-size:14px;line-height:1.7;max-width:560px;}
 
-        /* --- SECTION 09: COMPARISON --- */
-        #comparison {
-            background: var(--color-black);
-            padding: 15vh var(--spacing-container);
-        }
-        .comparison-grid {
-            display: grid;
-            grid-template-columns: 1fr 1px 1fr;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-        .comparison-col {
-            padding: 0 40px;
-        }
-        .comparison-col h3 {
-            font-family: var(--font-display);
-            font-size: 24px;
-            margin-bottom: 60px;
-            text-transform: uppercase;
-        }
-        .comparison-col.joly h3 { color: var(--color-white); }
-        .comparison-col.std h3 { color: var(--color-grey); }
-        
-        .comparison-line {
-            background: rgba(255,255,255,0.1);
-            position: relative;
-        }
-        .comparison-line::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 0%;
-            background: var(--color-white);
-            transition: height 0.1s linear;
-        }
-        .comp-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 20px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            font-family: var(--font-mono);
-            font-size: 14px;
-            letter-spacing: 0.1em;
-        }
-        .comp-row span:first-child { color: var(--color-light-grey); }
-        .comp-val-joly { color: var(--color-white); }
-        .comp-val-std { color: var(--color-grey); }
+  /* =========================================================
+     SECTION 11 — FINAL CTA
+  ========================================================= */
+  #final{min-height:100vh;position:relative;display:flex;align-items:center;justify-content:center;}
+  #final .ph{position:absolute;inset:0;}
+  #final .final-fade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,10,10,0.5),rgba(10,10,10,0.85));}
+  #final .final-content{position:relative;z-index:2;text-align:center;}
+  #final .fw{font-weight:900;font-size:clamp(46px,10vw,150px);line-height:0.9;overflow:hidden;}
+  #final .fw span{display:inline-block;transform:translateY(110%);}
+  #final .final-tag{margin-top:24px;font-size:15px;color:var(--off);}
+  #final .final-price{margin-top:30px;font-weight:700;font-size:22px;}
+  #final .cta{margin-top:26px;}
 
-        /* --- SECTION 10: FAQ --- */
-        #faq {
-            background: var(--color-black);
-            padding: 15vh var(--spacing-container);
-        }
-        .faq-header {
-            font-size: clamp(40px, 8vw, 100px);
-            margin-bottom: 10vh;
-        }
-        .faq-item {
-            border-top: 1px solid rgba(255,255,255,0.1);
-        }
-        .faq-item:last-child {
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-        .faq-question {
-            width: 100%;
-            background: none;
-            border: none;
-            color: var(--color-white);
-            padding: 30px 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-            text-align: left;
-            font-family: var(--font-display);
-            font-size: clamp(20px, 3vw, 32px);
-            text-transform: uppercase;
-        }
-        .faq-icon {
-            font-family: var(--font-mono);
-            font-size: 24px;
-            transition: transform 0.4s var(--ease-premium);
-        }
-        .faq-item.active .faq-icon {
-            transform: rotate(45deg);
-        }
-        .faq-answer {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.6s var(--ease-premium), opacity 0.4s ease;
-            opacity: 0;
-        }
-        .faq-item.active .faq-answer {
-            opacity: 1;
-        }
-        .faq-answer p {
-            padding-bottom: 30px;
-            font-size: 16px;
-            line-height: 1.6;
-            color: var(--color-light-grey);
-            max-width: 600px;
-        }
+  #outro{
+    height:100vh;background:var(--black);display:flex;align-items:center;justify-content:center;
+    flex-direction:column;gap:14px;
+  }
+  #outro .mark{font-weight:900;font-size:clamp(28px,4vw,44px);}
 
-        /* --- SECTION 11: FINAL CTA --- */
-        #final-cta {
-            height: 100vh;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            background: var(--color-black);
-        }
-        .final-bg {
-            position: absolute;
-            inset: 0;
-            /* REPLACE WITH: assets/images/final-hero.jpg */
-            background-image: url('https://images.unsplash.com/photo-1622560480605-d83c853bc5c3?w=1200&q=80');
-            background-size: cover;
-            background-position: center;
-            filter: grayscale(100%) brightness(0.4);
-            transform: scale(1.1);
-        }
-        .final-content {
-            position: relative;
-            z-index: 2;
-            text-align: center;
-        }
-        .final-title {
-            font-size: clamp(60px, 12vw, 160px);
-            margin-bottom: 20px;
-        }
-        .final-tagline {
-            font-family: var(--font-mono);
-            font-size: 14px;
-            letter-spacing: 0.2em;
-            margin-bottom: 40px;
-            color: var(--color-light-grey);
-        }
-        .final-price {
-            font-family: var(--font-display);
-            font-size: 36px;
-            margin-bottom: 40px;
-        }
-        
-        .final-blackout {
-            position: absolute;
-            inset: 0;
-            background: var(--color-black);
-            z-index: 10;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            opacity: 0;
-            pointer-events: none;
-        }
-        .final-blackout.visible {
-            opacity: 1;
-            pointer-events: all;
-        }
+  footer.site-foot{
+    padding:30px 40px;display:flex;justify-content:space-between;
+    font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--grey);
+    border-top:1px solid var(--line);
+  }
+  @media (max-width:720px){ footer.site-foot{flex-direction:column;gap:8px;padding:24px 20px;} }
 
-        /* =========================================
-           3. RESPONSIVE
-           ========================================= */
-        @media (max-width: 768px) {
-            :root { --spacing-container: 20px; }
-            body { cursor: auto; }
-            .cursor { display: none; }
-            
-            .hero-visual { width: 80vw; }
-            .hero-meta { display: none; } /* Hide meta on mobile for clean look */
-            
-            .benefits-grid { grid-template-columns: 1fr; }
-            .benefits-left { position: relative; top: 0; margin-bottom: 40px; }
-            .benefits-right { height: 50vh; }
-            
-            .testimonial { grid-template-columns: 1fr; gap: 30px; }
-            .testimonial:nth-child(even) { direction: ltr; }
-            
-            .comparison-grid { grid-template-columns: 1fr; gap: 20px; }
-            .comparison-line { display: none; }
-            
-            .material-scroll { flex-direction: column; width: 100%; }
-            .material-card { width: 100%; }
-        }
+  /* ---------- Custom cursor (desktop only) ---------- */
+  .cursor-dot{
+    position:fixed;top:0;left:0;width:8px;height:8px;border-radius:50%;
+    background:var(--white);pointer-events:none;z-index:9999;
+    transform:translate(-50%,-50%);mix-blend-mode:difference;
+    transition:width .25s var(--ease), height .25s var(--ease);
+  }
+  .cursor-dot.big{width:44px;height:44px;}
+  @media (hover:none), (max-width:900px){ .cursor-dot{display:none;} }
 
-        @media (prefers-reduced-motion: reduce) {
-            * { animation: none !important; transition: none !important; }
-        }
-    </style>
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
+  }
+</style>
 </head>
 <body>
 
-    <div class="noise-overlay"></div>
-    <div class="cursor"></div>
+<div id="loader" aria-hidden="true">
+  <div class="lw">
+    <span>JOLY.BELL</span>
+    <div class="bar"><span id="loaderBar"></span></div>
+  </div>
+</div>
 
-    <!-- SECTION 01: HERO -->
-    <section id="hero">
-        <div class="hero-lines">
-            <div class="hero-line hero-line-v1"></div>
-            <div class="hero-line hero-line-v2"></div>
-            <div class="hero-line hero-line-h1"></div>
-        </div>
-        
-        <div class="hero-meta left">
-            <span class="text-mono">OBJ / 01</span>
-            <span class="text-mono">VOL / 24L</span>
-            <span class="text-mono">DIM / 48x32x15</span>
-        </div>
-        <div class="hero-meta right">
-            <span class="text-mono">JOLY.BELL</span>
-            <span class="text-mono">EST. 2025</span>
-        </div>
+<div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
 
-        <div class="hero-visual">
-            <!-- REPLACE WITH: assets/images/hero.jpg -->
-            <img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=800&q=80" alt="MILITARY FULL" class="img-placeholder">
-        </div>
+<header class="site-nav">
+  <a href="#hero" class="nav-mark">JOLY.BELL</a>
+  <nav class="nav-links" aria-label="Section navigation">
+    <a href="#lab">Lab</a>
+    <a href="#proof">Reviews</a>
+    <a href="#offer">Buy</a>
+    <a href="#faq">FAQ</a>
+  </nav>
+  <span class="nav-index mono">OBJECT 01</span>
+</header>
 
-        <div class="hero-content">
-            <h1 class="text-display hero-title">
-                <span class="clip-text"><span class="clip-text-inner">MILITARY</span></span>
-                <span class="clip-text"><span class="clip-text-inner">FULL</span></span>
-            </h1>
-            <div class="hero-subtitle">
-                <span class="text-mono clip-text"><span class="clip-text-inner">OBJECT 01 / ENGINEERED FOR THE URBAN ENVIRONMENT</span></span>
-            </div>
-        </div>
+<main>
 
-        <div class="hero-bottom">
-            <a href="#offer" class="btn-discover hover-target">
-                <span>DISCOVER</span>
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 3L8 13M8 13L13 8M8 13L3 8" stroke="currentColor" stroke-width="1.5"/></svg>
-            </a>
-            <div class="scroll-indicator">
-                <span class="text-mono">SCROLL TO EXPLORE</span>
-                <div class="scroll-line"></div>
-            </div>
-        </div.
-    </section>
+  <!-- ============ 01 HERO ============ -->
+  <section id="hero" aria-label="Intro">
+    <div class="ph ph-1"><span class="ph-tag">assets/images/hero.jpg</span></div>
+    <div class="hero-fade"></div>
+    <div class="hero-top">
+      <span class="mono">JOLY.BELL / EST. 2025</span>
+      <span class="mono obj-label">MILITARY&nbsp;FULL — OBJECT&nbsp;01</span>
+    </div>
+    <div class="hero-content">
+      <h1 class="h1-brand" id="heroTitle" aria-label="JOLY.BELL"><span>JOLY.BELL</span></h1>
+      <p class="hero-sub" id="heroSub">One bag, built for everything you carry and everywhere you carry it. No excess. No compromise.</p>
+      <div class="hero-meta">
+        <a href="#offer" class="cta">BUY NOW</a>
+        <div class="scroll-cue"><span>SCROLL TO EXPLORE</span><div class="stick"><i></i></div></div>
+      </div>
+    </div>
+  </section>
 
-    <!-- SECTION 02: PROBLEM -->
-    <section id="problem">
-        <div class="problem-text-wrapper">
-            <div class="problem-line text-display" data-threshold="0.2">EVERYDAY</div>
-            <div class="problem-line text-display" data-threshold="0.4">SHOULDN'T</div>
-            <div class="problem-line text-display" data-threshold="0.6">MEAN</div>
-            <div class="problem-line text-display" data-threshold="0.8">ORDINARY.</div>
-            
-            <div style="height: 30vh;"></div>
-            
-            <div class="problem-line text-display" style="font-size: clamp(20px, 4vw, 40px); color: var(--color-light-grey);" data-threshold="0.2">TOO MUCH TO CARRY.</div>
-            <div class="problem-line text-display" style="font-size: clamp(20px, 4vw, 40px); color: var(--color-light-grey);" data-threshold="0.4">TOO LITTLE TO ORGANIZE.</div>
-            <div class="problem-line text-display" style="font-size: clamp(20px, 4vw, 40px); color: var(--color-light-grey);" data-threshold="0.6">NOTHING TO REMEMBER.</div>
-            
-            <div class="problem-line text-display final" data-threshold="0.8">SO WE BUILT OUR OWN.</div>
-        </div>
-    </section>
+  <!-- ============ 02 PROBLEM ============ -->
+  <section id="problem" aria-label="The problem">
+    <div class="wrap">
+      <div class="lines">
+        <div class="line-op">EVERYDAY</div>
+        <div class="line-op">SHOULDN'T</div>
+        <div class="line-op">MEAN</div>
+        <div class="line-op">ORDINARY.</div>
+      </div>
+      <div class="sub-lines">
+        <p>TOO MUCH TO CARRY.</p>
+        <p>TOO LITTLE TO ORGANIZE.</p>
+        <p>NOTHING TO REMEMBER.</p>
+      </div>
+      <p class="final-line">SO WE BUILT OUR OWN.</p>
+    </div>
+  </section>
 
-    <!-- SECTION 03: REVEAL -->
-    <section id="reveal">
-        <div class="reveal-container">
-            <div class="reveal-panel" style="--bg-pos: 0% 50%;"></div>
-            <div class="reveal-panel" style="--bg-pos: 33.33% 50%;"></div>
-            <div class="reveal-panel" style="--bg-pos: 66.66% 50%;"></div>
-            <div class="reveal-panel" style="--bg-pos: 100% 50%;"></div>
-        </div>
-        <div class="reveal-text">
-            <h2 class="text-display">ONE OBJECT.<br>MANY PURPOSES.</h2>
-            <div class="reveal-tags text-mono">
-                <span>CITY</span>
-                <span>/</span>
-                <span>TRAVEL</span>
-                <span>/</span>
-                <span>EVERYDAY</span>
-            </div>
-        </div>
-    </section>
+  <!-- ============ 03 REVEAL ============ -->
+  <section id="reveal" aria-label="Product reveal">
+    <div class="wrap">
+      <span class="eyebrow"><span class="dash"></span>OBJECT 01</span>
+      <div class="panels" id="revealPanels">
+        <div class="panel ph ph-3a"></div>
+        <div class="panel ph ph-3b"></div>
+        <div class="panel ph ph-3c"></div>
+      </div>
+      <div class="after-text">
+        <h3>ONE OBJECT.<br>MANY PURPOSES.</h3>
+        <span class="mono">CITY / TRAVEL / EVERYDAY</span>
+      </div>
+    </div>
+  </section>
 
-    <!-- SECTION 04: BENEFITS -->
-    <section id="benefits">
-        <div class="benefits-grid">
-            <div class="benefits-left">
-                <span class="text-mono" style="margin-bottom: 40px; display: block;">WHY MILITARY FULL</span>
-                
-                <div class="benefit-item active" data-index="0">
-                    <span class="benefit-num">01</span>
-                    <h3 class="benefit-title">CAPACITY</h3>
-                    <p class="benefit-desc">Engineered volume distribution. Fits a 16" laptop, documents, and daily essentials without compromising silhouette.</p>
-                </div>
-                <div class="benefit-item" data-index="1">
-                    <span class="benefit-num">02</span>
-                    <h3 class="benefit-title">STRUCTURE</h3>
-                    <p class="benefit-desc">Internal rigid frame maintains shape under load. Ergonomic spine alignment for prolonged urban transit.</p>
-                </div>
-                <div class="benefit-item" data-index="2">
-                    <span class="benefit-num">03</span>
-                    <h3 class="benefit-title">DURABILITY</h3>
-                    <p class="benefit-desc">Constructed from 1000D ballistic nylon. Water-resistant coating. YKK AquaGuard zippers.</p>
-                </div>
-                <div class="benefit-item" data-index="3">
-                    <span class="benefit-num">04</span>
-                    <h3 class="benefit-title">IDENTITY</h3>
-                    <p class="benefit-desc">Minimalist exterior. No loud branding. A statement of quiet confidence and functional luxury.</p>
-                </div>
+  <!-- ============ 04 BENEFITS ============ -->
+  <section id="benefits" aria-label="Why Military Full">
+    <div class="wrap">
+      <div class="benefits-grid">
+        <div class="benefits-left">
+          <h2>WHY<br>MILITARY FULL</h2>
+          <div class="benefit-states" id="benefitStates">
+            <div class="benefit-state" data-i="0">
+              <div class="num mono">01 — CAPACITY</div>
+              <h3>Room for a full day.</h3>
+              <p>A single main compartment sized for a laptop, a change of clothes, and everything between — without the bag ever looking overstuffed.</p>
             </div>
-            
-            <div class="benefits-right">
-                <!-- REPLACE WITH: assets/images/benefit-01.jpg to 04.jpg -->
-                <img src="https://images.unsplash.com/photo-1547949003-9792a18a2601?w=800&q=80" class="img-placeholder benefit-img active" data-index="0" alt="Capacity">
-                <img src="https://images.unsplash.com/photo-1581605405669-fcdf81165afa?w=800&q=80" class="img-placeholder benefit-img" data-index="1" alt="Structure">
-                <img src="https://images.unsplash.com/photo-1622560480605-d83c853bc5c3?w=800&q=80" class="img-placeholder benefit-img" data-index="2" alt="Durability">
-                <img src="https://images.unsplash.com/photo-1491637639811-60e2756cc1c7?w=800&q=80" class="img-placeholder benefit-img" data-index="3" alt="Identity">
+            <div class="benefit-state" data-i="1">
+              <div class="num mono">02 — STRUCTURE</div>
+              <h3>Shape that holds.</h3>
+              <p>An internal frame keeps its form empty or full, so the bag never collapses into a shapeless sack on your back.</p>
             </div>
+            <div class="benefit-state" data-i="2">
+              <div class="num mono">03 — DURABILITY</div>
+              <h3>Built past the warranty.</h3>
+              <p>Reinforced stitching and abrasion-tested fabric at every stress point — the parts that fail first on other bags.</p>
+            </div>
+            <div class="benefit-state" data-i="3">
+              <div class="num mono">04 — IDENTITY</div>
+              <h3>Recognizable, not branded.</h3>
+              <p>No logos shouting from across the room. The silhouette does the talking — quiet, industrial, unmistakably its own.</p>
+            </div>
+          </div>
         </div>
-    </section>
+        <div class="benefit-visual" id="benefitVisual">
+          <div class="benefit-visual-inner">
+            <div class="ph ph-4" id="benefitPh"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    <!-- SECTION 05: PRODUCT LAB -->
-    <section id="product-lab">
-        <div class="lab-container">
-            <div class="lab-image-wrapper">
-                <!-- REPLACE WITH: assets/images/product-lab.jpg -->
-                <img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=800&q=80" alt="Product Blueprint">
-                
-                <svg class="lab-lines" viewBox="0 0 800 1000" preserveAspectRatio="none">
-                    <line x1="20%" y1="30%" x2="10%" y2="20%" class="lab-line" data-target="1"/>
-                    <line x1="80%" y1="40%" x2="90%" y2="30%" class="lab-line" data-target="2"/>
-                    <line x1="50%" y1="70%" x2="50%" y2="85%" class="lab-line" data-target="3"/>
-                    <line x1="30%" y1="50%" x2="15%" y2="60%" class="lab-line" data-target="4"/>
-                </svg>
+  <!-- ============ 05 PRODUCT LAB ============ -->
+  <section id="lab" aria-label="Product details">
+    <div class="wrap">
+      <span class="eyebrow"><span class="dash"></span>PRODUCT LAB</span>
+      <h2>Every detail earns its place.</h2>
+      <div class="lab-stage" id="labStage">
+        <div class="ph ph-5"></div>
+        <div class="lab-point" style="left:28%;top:22%" data-lbl="MAIN COMPARTMENT" data-num="01">
+          <div class="dot"></div><div class="ring"></div>
+          <div class="lbl"><span class="ln"></span><span class="num mono">01</span><span>MAIN COMPARTMENT</span></div>
+        </div>
+        <div class="lab-point" style="left:68%;top:34%" data-lbl="FRONT POCKET" data-num="02">
+          <div class="dot"></div><div class="ring"></div>
+          <div class="lbl"><span class="ln"></span><span class="num mono">02</span><span>FRONT POCKET</span></div>
+        </div>
+        <div class="lab-point" style="left:40%;top:64%" data-lbl="STRAPS" data-num="03">
+          <div class="dot"></div><div class="ring"></div>
+          <div class="lbl"><span class="ln"></span><span class="num mono">03</span><span>STRAPS</span></div>
+        </div>
+        <div class="lab-point" style="left:74%;top:70%" data-lbl="ZIPPER" data-num="04">
+          <div class="dot"></div><div class="ring"></div>
+          <div class="lbl"><span class="ln"></span><span class="num mono">04</span><span>ZIPPER</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-                <div class="lab-point hover-target" style="top: 30%; left: 20%;" data-target="1">
-                    <div class="lab-label" style="top: -40px; left: -80px;">01 / MAIN COMPARTMENT</div>
-                </div>
-                <div class="lab-point hover-target" style="top: 40%; left: 80%;" data-target="2">
-                    <div class="lab-label" style="top: -40px; left: 20px;">02 / FRONT POCKET</div>
-                </div>
-                <div class="lab-point hover-target" style="top: 70%; left: 50%;" data-target="3">
-                    <div class="lab-label" style="top: 30px; left: 20px;">03 / STRAPS</div>
-                </div>
-                <div class="lab-point hover-target" style="top: 50%; left: 30%;" data-target="4">
-                    <div class="lab-label" style="top: -40px; left: -100px;">04 / ZIPPER</div>
-                </div>
-            </div>
-        </div>
-    </section>
+  <!-- ============ 06 MATERIAL ============ -->
+  <section id="material" aria-label="Materials and details">
+    <div class="wrap">
+      <span class="eyebrow"><span class="dash"></span>MATERIAL</span>
+      <h2>DETAILS MATTER.</h2>
+      <div class="material-row">
+        <div class="material-cell"><div class="ph ph-6a" data-mat></div><span class="cap">TEXTURE</span></div>
+        <div class="material-cell"><div class="ph ph-6b" data-mat></div><span class="cap">HARDWARE</span></div>
+        <div class="material-cell"><div class="ph ph-6c" data-mat></div><span class="cap">STITCHING</span></div>
+      </div>
+    </div>
+  </section>
 
-    <!-- SECTION 06: MATERIAL -->
-    <section id="material">
-        <div class="material-header">
-            <span class="text-mono">SECTION 06</span>
-            <h2 class="text-display">DETAILS MATTER.</h2>
+  <!-- ============ 07 SOCIAL PROOF ============ -->
+  <section id="proof" aria-label="Customer reviews">
+    <div class="wrap">
+      <h2>WHAT PEOPLE SAY</h2>
+      <div class="proof-row">
+        <div class="proof-card">
+          <div class="ph ph-7a"></div>
+          <div class="proof-num mono">01</div>
+          <p class="proof-quote">"YOUR REVIEW HERE."</p>
+          <p class="proof-meta">NAME / CITY — placeholder, real review to follow</p>
         </div>
-        <div class="material-scroll">
-            <!-- REPLACE WITH: assets/images/detail-01.jpg to 04.jpg -->
-            <div class="material-card hover-target">
-                <img src="https://images.unsplash.com/photo-1620799140408-ed5341cd2431?w=600&q=80" alt="Texture">
-                <div class="material-card-label text-mono">01 / BALLISTIC NYLON TEXTURE</div>
-            </div>
-            <div class="material-card hover-target">
-                <img src="https://images.unsplash.com/photo-1605218427368-35b0f996d8e9?w=600&q=80" alt="Stitching">
-                <div class="material-card-label text-mono">02 / REINFORCED STITCHING</div>
-            </div>
-            <div class="material-card hover-target">
-                <img src="https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=600&q=80" alt="Hardware">
-                <div class="material-card-label text-mono">03 / ANODIZED HARDWARE</div>
-            </div>
-            <div class="material-card hover-target">
-                <img src="https://images.unsplash.com/photo-1611568285907-0e7b840f3e09?w=600&q=80" alt="Logo">
-                <div class="material-card-label text-mono">04 / DEBOSSSED LOGO</div>
-            </div>
+        <div class="proof-card">
+          <div class="ph ph-7b"></div>
+          <div class="proof-num mono">02</div>
+          <p class="proof-quote">"YOUR REVIEW HERE."</p>
+          <p class="proof-meta">NAME / CITY — placeholder, real review to follow</p>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 
-    <!-- SECTION 07: SOCIAL PROOF -->
-    <section id="social-proof">
-        <div class="testimonial">
-            <div class="testimonial-img hover-target">
-                <!-- REPLACE WITH: assets/images/testimonial-01.jpg -->
-                <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=600&q=80" alt="User 01">
-            </div>
-            <div class="testimonial-content">
-                <span class="testimonial-num">01</span>
-                <p class="testimonial-quote">"YOUR REVIEW HERE. The structure is unmatched. It holds its shape perfectly even when fully loaded."</p>
-                <span class="testimonial-author">NAME / CITY</span>
-            </div>
+  <!-- ============ 08 OFFER ============ -->
+  <section id="offer" aria-label="Buy Military Full">
+    <div class="wrap">
+      <div class="offer-grid">
+        <div class="offer-visual ph ph-8"></div>
+        <div>
+          <div class="offer-name">MILITARY FULL</div>
+          <div class="offer-obj mono">OBJECT 01</div>
+          <div class="offer-price">$XXX</div>
+          <div class="offer-avail mono">AVAILABLE NOW</div>
+          <div class="offer-list">
+            <div><span>WHAT'S INCLUDED</span><span></span></div>
+            <div><span>Military Full backpack</span><span>×1</span></div>
+            <div><span>JOLY.BELL packaging</span><span>×1</span></div>
+            <div><span>Worldwide shipping</span><span>INC.</span></div>
+          </div>
+          <a href="#" class="big-cta"><span>BUY NOW</span><span>→</span></a>
         </div>
-        <div class="testimonial">
-            <div class="testimonial-img hover-target">
-                <!-- REPLACE WITH: assets/images/testimonial-02.jpg -->
-                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600&q=80" alt="User 02">
-            </div>
-            <div class="testimonial-content">
-                <span class="testimonial-num">02</span>
-                <p class="testimonial-quote">"YOUR REVIEW HERE. Finally, a bag that looks as good in a boardroom as it does on a flight."</p>
-                <span class="testimonial-author">NAME / CITY</span>
-            </div>
-        </div>
-    </section>
+      </div>
+    </div>
+  </section>
 
-    <!-- SECTION 08: OFFER -->
-    <section id="offer">
-        <div class="offer-container">
-            <span class="text-mono">OBJECT 01</span>
-            <h2 class="text-display offer-title">MILITARY FULL</h2>
-            <div class="offer-price">$XXX</div>
-            <span class="text-mono" style="color: var(--color-black);">AVAILABLE NOW</span>
-            
-            <div class="offer-included">
-                <h4>WHAT'S INCLUDED</h4>
-                <ul>
-                    <li>MILITARY FULL BACKPACK</li>
-                    <li>JOLY.BELL PREMIUM PACKAGING</li>
-                    <li>WORLDWIDE TRACKED SHIPPING</li>
-                </ul>
-            </div>
-            
-            <a href="#" class="btn-buy hover-target">
-                <span>BUY NOW <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8L13 8M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.5"/></svg></span>
-            </a>
+  <!-- ============ 09 COMPARISON ============ -->
+  <section id="compare" aria-label="Comparison">
+    <div class="wrap">
+      <h2>NOT A STANDARD BACKPACK.</h2>
+      <div class="compare-split">
+        <div class="compare-col">
+          <div class="ph ph-9a"></div>
+          <h3>JOLY.BELL</h3>
+          <div class="compare-row"><span class="label">DESIGN</span><span class="mark yes">✓</span></div>
+          <div class="compare-row"><span class="label">MATERIAL</span><span class="mark yes">✓</span></div>
+          <div class="compare-row"><span class="label">STORAGE</span><span class="mark yes">✓</span></div>
+          <div class="compare-row"><span class="label">CONSTRUCTION</span><span class="mark yes">✓</span></div>
+          <div class="compare-row"><span class="label">IDENTITY</span><span class="mark yes">✓</span></div>
         </div>
-    </section>
-
-    <!-- SECTION 09: COMPARISON -->
-    <section id="comparison">
-        <div class="comparison-grid">
-            <div class="comparison-col joly">
-                <h3>JOLY.BELL</h3>
-                <div class="comp-row"><span>DESIGN</span> <span class="comp-val-joly">✓ Editorial / Minimal</span></div>
-                <div class="comp-row"><span>MATERIAL</span> <span class="comp-val-joly">✓ 1000D Ballistic Nylon</span></div>
-                <div class="comp-row"><span>STORAGE</span> <span class="comp-val-joly">✓ Dedicated Tech & Dry Pockets</span></div>
-                <div class="comp-row"><span>CONSTRUCTION</span> <span class="comp-val-joly">✓ Internal Rigid Frame</span></div>
-                <div class="comp-row"><span>IDENTITY</span> <span class="comp-val-joly">✓ Quiet Luxury</span></div>
-            </div>
-            <div class="comparison-line"></div>
-            <div class="comparison-col std">
-                <h3>STANDARD BACKPACK</h3>
-                <div class="comp-row"><span>DESIGN</span> <span class="comp-val-std">— Generic / Bulky</span></div>
-                <div class="comp-row"><span>MATERIAL</span> <span class="comp-val-std">— Standard Polyester</span></div>
-                <div class="comp-row"><span>STORAGE</span> <span class="comp-val-std">— Single Main Cavity</span></div>
-                <div class="comp-row"><span>CONSTRUCTION</span> <span class="comp-val-std">— Unstructured / Collapses</span></div>
-                <div class="comp-row"><span>IDENTITY</span> <span class="comp-val-std">— Mass Market Logo</span></div>
-            </div>
+        <div class="compare-col">
+          <div class="ph ph-9b"></div>
+          <h3>STANDARD BACKPACK</h3>
+          <div class="compare-row"><span class="label">DESIGN</span><span class="mark no">—</span></div>
+          <div class="compare-row"><span class="label">MATERIAL</span><span class="mark no">—</span></div>
+          <div class="compare-row"><span class="label">STORAGE</span><span class="mark yes">✓</span></div>
+          <div class="compare-row"><span class="label">CONSTRUCTION</span><span class="mark no">—</span></div>
+          <div class="compare-row"><span class="label">IDENTITY</span><span class="mark no">—</span></div>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 
-    <!-- SECTION 10: FAQ -->
-    <section id="faq">
-        <h2 class="text-display faq-header">QUESTIONS?</h2>
-        
+  <!-- ============ 10 FAQ ============ -->
+  <section id="faq" aria-label="Frequently asked questions">
+    <div class="wrap">
+      <h2>QUESTIONS?</h2>
+      <div id="faqList">
         <div class="faq-item">
-            <button class="faq-question hover-target">
-                <span>01 — Does it fit a laptop?</span>
-                <span class="faq-icon">+</span>
-            </button>
-            <div class="faq-answer">
-                <p>Yes. The dedicated, padded laptop compartment safely fits devices up to 16 inches, with a separate sleeve for tablets or documents.</p>
-            </div>
+          <button class="faq-q" aria-expanded="false">
+            <span class="qnum">01</span><span class="qtxt">Does it fit a laptop?</span>
+            <span class="faq-toggle"><i class="h"></i><i class="v"></i></span>
+          </button>
+          <div class="faq-a"><p>Yes — the main compartment holds laptops up to 16 inches in a padded, separated sleeve.</p></div>
         </div>
         <div class="faq-item">
-            <button class="faq-question hover-target">
-                <span>02 — What material is used?</span>
-                <span class="faq-icon">+</span>
-            </button>
-            <div class="faq-answer">
-                <p>The exterior is crafted from 1000D water-resistant ballistic nylon. Hardware is anodized aluminum, and zippers are YKK AquaGuard.</p>
-            </div>
+          <button class="faq-q" aria-expanded="false">
+            <span class="qnum">02</span><span class="qtxt">What material is used?</span>
+            <span class="faq-toggle"><i class="h"></i><i class="v"></i></span>
+          </button>
+          <div class="faq-a"><p>A water-resistant technical shell with reinforced base panels, finished with matte metal hardware.</p></div>
         </div>
         <div class="faq-item">
-            <button class="faq-question hover-target">
-                <span>03 — How do I care for it?</span>
-                <span class="faq-icon">+</span>
-            </button>
-            <div class="faq-answer">
-                <p>Wipe clean with a damp cloth and mild soap. Do not machine wash or dry clean. Allow to air dry away from direct heat.</p>
-            </div>
+          <button class="faq-q" aria-expanded="false">
+            <span class="qnum">03</span><span class="qtxt">How do I care for it?</span>
+            <span class="faq-toggle"><i class="h"></i><i class="v"></i></span>
+          </button>
+          <div class="faq-a"><p>Spot clean with a damp cloth. Avoid machine washing to protect the internal structure and hardware.</p></div>
         </div>
         <div class="faq-item">
-            <button class="faq-question hover-target">
-                <span>04 — Where do you ship?</span>
-                <span class="faq-icon">+</span>
-            </button>
-            <div class="faq-answer">
-                <p>We offer worldwide tracked shipping to over 50 countries, including North America, Europe, and select regions in Asia.</p>
-            </div>
+          <button class="faq-q" aria-expanded="false">
+            <span class="qnum">04</span><span class="qtxt">Where do you ship?</span>
+            <span class="faq-toggle"><i class="h"></i><i class="v"></i></span>
+          </button>
+          <div class="faq-a"><p>Worldwide. Duties and import fees, where applicable, are calculated at checkout.</p></div>
         </div>
         <div class="faq-item">
-            <button class="faq-question hover-target">
-                <span>05 — How long does shipping take?</span>
-                <span class="faq-icon">+</span>
-            </button>
-            <div class="faq-answer">
-                <p>Orders are processed within 48 hours. Standard international delivery takes 5-10 business days depending on customs.</p>
-            </div>
+          <button class="faq-q" aria-expanded="false">
+            <span class="qnum">05</span><span class="qtxt">How long does shipping take?</span>
+            <span class="faq-toggle"><i class="h"></i><i class="v"></i></span>
+          </button>
+          <div class="faq-a"><p>3–6 business days domestically, 7–14 business days for international orders.</p></div>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 
-    <!-- SECTION 11: FINAL CTA -->
-    <section id="final-cta">
-        <div class="final-bg"></div>
-        <div class="final-content">
-            <h2 class="text-display final-title">
-                <span class="clip-text"><span class="clip-text-inner">MILITARY</span></span>
-                <span class="clip-text"><span class="clip-text-inner">FULL</span></span>
-            </h2>
-            <p class="final-tagline">CARRY YOUR WORLD. MAKE IT YOURS.</p>
-            <div class="final-price">$XXX</div>
-            <a href="#" class="btn-buy hover-target" style="max-width: 300px; margin: 0 auto;">
-                <span>BUY NOW <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8L13 8M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.5"/></svg></span>
-            </a>
-        </div>
-        
-        <div class="final-blackout">
-            <span class="text-display" style="font-size: 24px; letter-spacing: 0.2em;">JOLY.BELL</span>
-            <span class="text-mono">EST. 2025</span>
-            <span class="text-mono" style="margin-top: 20px;">OBJECT 01 / MILITARY FULL</span>
-        </div>
-    </section>
+  <!-- ============ 11 FINAL CTA ============ -->
+  <section id="final" aria-label="Final call to action">
+    <div class="ph ph-11"></div>
+    <div class="final-fade"></div>
+    <div class="final-content">
+      <h2 class="fw"><span>MILITARY</span></h2>
+      <h2 class="fw"><span>FULL</span></h2>
+      <p class="final-tag">CARRY YOUR WORLD. MAKE IT YOURS.</p>
+      <p class="final-price">$XXX</p>
+      <a href="#offer" class="cta">BUY NOW →</a>
+    </div>
+  </section>
 
-    <!-- JAVASCRIPT -->
-    <script>
-        // 1. Initialize Lenis Smooth Scroll
-        const lenis = new Lenis({
-            duration: 1.2,
-            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-            direction: 'vertical',
-            gestureDirection: 'vertical',
-            smooth: true,
-            mouseMultiplier: 1,
-            smoothTouch: false, // Better performance on mobile
-            touchMultiplier: 2,
+  <div id="outro">
+    <div class="mark">JOLY.BELL</div>
+    <div class="mono">EST. 2025</div>
+    <div class="mono">OBJECT 01 / MILITARY FULL</div>
+  </div>
+
+</main>
+
+<footer class="site-foot">
+  <span>JOLY.BELL © 2025</span>
+  <span>MILITARY FULL / OBJECT 01</span>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+(function(){
+  "use strict";
+
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var isTouch = matchMedia('(hover:none)').matches || 'ontouchstart' in window;
+
+  /* ---------- viewport height fix for mobile browser chrome ---------- */
+  function setVH(){ document.documentElement.style.setProperty('--vh', (window.innerHeight*0.01)+'px'); }
+  setVH();
+  window.addEventListener('resize', setVH);
+
+  /* ---------- Loader ---------- */
+  var loader = document.getElementById('loader');
+  var bar = document.getElementById('loaderBar');
+  function finishLoad(){
+    if(!loader) return;
+    loader.style.transition = 'opacity .6s ease';
+    loader.style.opacity = '0';
+    setTimeout(function(){ loader.style.display='none'; runHeroIntro(); }, 600);
+  }
+  if(!reduceMotion && bar && window.gsap){
+    gsap.to(bar, {width:'100%', duration:1.1, ease:'power2.inOut', onComplete: finishLoad});
+  } else {
+    if(bar) bar.style.width = '100%';
+    setTimeout(finishLoad, reduceMotion ? 50 : 500);
+  }
+
+  /* ---------- Custom cursor ---------- */
+  var dot = document.getElementById('cursorDot');
+  if(dot && !isTouch){
+    window.addEventListener('mousemove', function(e){
+      dot.style.left = e.clientX+'px';
+      dot.style.top = e.clientY+'px';
+    });
+    document.querySelectorAll('a, button').forEach(function(el){
+      el.addEventListener('mouseenter', function(){ dot.classList.add('big'); });
+      el.addEventListener('mouseleave', function(){ dot.classList.remove('big'); });
+    });
+  } else if(dot){
+    dot.style.display = 'none';
+  }
+
+  if(!window.gsap || !window.ScrollTrigger){ return; }
+  gsap.registerPlugin(ScrollTrigger);
+
+  /* ================= HERO ================= */
+  function runHeroIntro(){
+    if(reduceMotion){
+      document.querySelectorAll('#heroTitle span').forEach(function(s){ s.style.transform='none'; });
+      var sub = document.getElementById('heroSub'); if(sub) sub.style.opacity=1;
+      document.querySelectorAll('.scroll-cue').forEach(function(s){ s.style.opacity=1; });
+      return;
+    }
+    var tl = gsap.timeline({defaults:{ease:'power3.out'}});
+    tl.from('#hero .ph-1', {opacity:0, scale:1.12, filter:'blur(14px)', duration:1.3})
+      .to('#heroTitle span', {y:0, duration:1.05, ease:'power4.out'}, '-=0.6')
+      .to('#heroSub', {opacity:1, duration:0.8}, '-=0.5')
+      .to('.scroll-cue', {opacity:1, duration:0.6}, '-=0.4');
+
+    gsap.to('#hero .ph-1', {
+      yPercent: 14, ease:'none',
+      scrollTrigger:{trigger:'#hero', start:'top top', end:'bottom top', scrub:true}
+    });
+  }
+
+  /* ================= PROBLEM ================= */
+  gsap.set('.line-op', {opacity:0.18});
+  ScrollTrigger.batch('.line-op', {
+    start:'top 78%',
+    onEnter: function(els){ els.forEach(function(el){ el.classList.add('on'); gsap.to(el,{opacity:1, x:0, duration:0.8, ease:'power3.out'}); }); },
+    onLeaveBack: function(els){ els.forEach(function(el){ el.classList.remove('on'); gsap.to(el,{opacity:0.18, duration:0.5}); }); }
+  });
+  gsap.from('#problem .sub-lines p', {
+    opacity:0, y:20, duration:0.7, stagger:0.12, ease:'power2.out',
+    scrollTrigger:{trigger:'#problem .sub-lines', start:'top 80%'}
+  });
+  gsap.from('#problem .final-line', {
+    opacity:0, y:24, filter:'blur(6px)', duration:0.9, ease:'power2.out',
+    scrollTrigger:{trigger:'#problem .final-line', start:'top 88%'}
+  });
+
+  /* ================= REVEAL ================= */
+  var revealTl = gsap.timeline({
+    scrollTrigger:{trigger:'#reveal', start:'top 60%', end:'top 10%', scrub:1}
+  });
+  revealTl
+    .to('#revealPanels .panel:nth-child(1)', {xPercent:-6, duration:1}, 0)
+    .to('#revealPanels .panel:nth-child(3)', {xPercent:6, duration:1}, 0)
+    .to('#revealPanels .panel', {gap:0, duration:1}, 0);
+
+  gsap.from('#reveal .after-text h3', {
+    opacity:0, y:30, duration:0.9, ease:'power2.out',
+    scrollTrigger:{trigger:'#reveal .after-text', start:'top 85%'}
+  });
+
+  /* ================= BENEFITS ================= */
+  (function(){
+    var isMobile = window.innerWidth <= 900;
+    var states = gsap.utils.toArray('.benefit-state');
+    var phEl = document.getElementById('benefitPh');
+    var imgs = ['ph-4','ph-6a','ph-6b','ph-6c'];
+
+    if(isMobile){
+      states.forEach(function(s, i){ if(i===0) s.classList.add('mobile-on'); });
+      return;
+    }
+
+    gsap.set(states[0], {opacity:1, y:0});
+
+    var st = ScrollTrigger.create({
+      trigger:'#benefitVisual',
+      start:'top top',
+      end:'bottom bottom',
+      onUpdate: function(self){
+        var idx = Math.min(states.length-1, Math.floor(self.progress * states.length));
+        states.forEach(function(s, i){
+          if(i === idx){
+            gsap.to(s, {opacity:1, y:0, duration:0.4, ease:'power2.out'});
+          } else {
+            gsap.to(s, {opacity:0, y: i < idx ? -16 : 16, duration:0.3, ease:'power2.out'});
+          }
         });
+        imgs.forEach(function(c){ phEl.classList.remove(c); });
+        phEl.classList.add(imgs[idx]);
+        gsap.fromTo(phEl, {scale:1.08}, {scale:1.0, duration:0.6, ease:'power2.out', overwrite:'auto'});
+      }
+    });
+  })();
 
-        function raf(time) {
-            lenis.raf(time);
-            requestAnimationFrame(raf);
+  /* ================= PRODUCT LAB ================= */
+  var labPoints = gsap.utils.toArray('.lab-point');
+  ScrollTrigger.batch(labPoints, {
+    start:'top 82%',
+    onEnter: function(els){ els.forEach(function(el, i){ gsap.delayedCall(i*0.15, function(){ el.classList.add('active'); }); }); }
+  });
+  if(!isTouch){
+    labPoints.forEach(function(p){
+      p.addEventListener('mouseenter', function(){ p.classList.add('active'); });
+    });
+  }
+  gsap.from('#labStage', {opacity:0, scale:0.97, duration:1, ease:'power2.out', scrollTrigger:{trigger:'#labStage', start:'top 80%'}});
+
+  /* ================= MATERIAL ================= */
+  gsap.utils.toArray('.material-cell').forEach(function(cell, i){
+    var img = cell.querySelector('[data-mat]');
+    gsap.fromTo(img, {scale:1.7}, {
+      scale:1.0, ease:'none',
+      scrollTrigger:{trigger:cell, start:'top bottom', end:'bottom top', scrub:1}
+    });
+    gsap.from(cell, {opacity:0, y:24, duration:0.7, delay:i*0.05, scrollTrigger:{trigger:cell, start:'top 90%'}});
+  });
+
+  /* ================= SOCIAL PROOF ================= */
+  gsap.utils.toArray('.proof-card').forEach(function(card, i){
+    gsap.from(card, {
+      opacity:0, y:40, duration:0.8, ease:'power2.out', delay:i*0.08,
+      scrollTrigger:{trigger:card, start:'top 85%'}
+    });
+  });
+
+  /* ================= OFFER ================= */
+  gsap.from('#offer .offer-visual', {opacity:0, scale:0.95, duration:0.9, ease:'power2.out', scrollTrigger:{trigger:'#offer', start:'top 75%'}});
+  gsap.from('#offer .offer-list div', {opacity:0, x:-16, duration:0.5, stagger:0.06, scrollTrigger:{trigger:'#offer .offer-list', start:'top 85%'}});
+
+  /* ================= COMPARE ================= */
+  gsap.from('.compare-col', {
+    opacity:0, y:30, duration:0.8, stagger:0.15, ease:'power2.out',
+    scrollTrigger:{trigger:'#compare', start:'top 75%'}
+  });
+
+  /* ================= FAQ accordion ================= */
+  document.querySelectorAll('.faq-item').forEach(function(item){
+    var q = item.querySelector('.faq-q');
+    var a = item.querySelector('.faq-a');
+    q.addEventListener('click', function(){
+      var isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(function(openItem){
+        if(openItem !== item){
+          openItem.classList.remove('open');
+          openItem.querySelector('.faq-q').setAttribute('aria-expanded','false');
+          var oa = openItem.querySelector('.faq-a');
+          gsap.to(oa, {height:0, opacity:0, duration:0.4, ease:'power2.inOut'});
         }
-        requestAnimationFrame(raf);
+      });
+      if(isOpen){
+        item.classList.remove('open');
+        q.setAttribute('aria-expanded','false');
+        gsap.to(a, {height:0, opacity:0, duration:0.4, ease:'power2.inOut'});
+      } else {
+        item.classList.add('open');
+        q.setAttribute('aria-expanded','true');
+        gsap.set(a, {height:'auto'});
+        var h = a.offsetHeight;
+        gsap.fromTo(a, {height:0, opacity:0}, {height:h, opacity:1, duration:0.45, ease:'power2.inOut'});
+      }
+    });
+  });
 
-        // Connect Lenis to GSAP ScrollTrigger
-        gsap.registerPlugin(ScrollTrigger);
-        
-        // 2. Custom Cursor Logic
-        const cursor = document.querySelector('.cursor');
-        const hoverTargets = document.querySelectorAll('.hover-target');
+  /* ================= FINAL CTA ================= */
+  gsap.from('#final .fw span', {
+    y:'110%', duration:1, stagger:0.12, ease:'power4.out',
+    scrollTrigger:{trigger:'#final', start:'top 60%'}
+  });
+  gsap.from('#final .final-tag, #final .final-price, #final .cta', {
+    opacity:0, y:16, duration:0.7, stagger:0.1, ease:'power2.out',
+    scrollTrigger:{trigger:'#final', start:'top 45%'}
+  });
+  gsap.to('#final .ph', {
+    yPercent:10, ease:'none',
+    scrollTrigger:{trigger:'#final', start:'top bottom', end:'bottom top', scrub:true}
+  });
 
-        if (window.matchMedia('(pointer: fine)').matches) {
-            document.addEventListener('mousemove', (e) => {
-                gsap.to(cursor, {
-                    x: e.clientX,
-                    y: e.clientY,
-                    duration: 0.1,
-                    ease: 'power2.out'
-                });
-            });
+  gsap.from('#outro .mark, #outro .mono', {
+    opacity:0, y:14, duration:0.8, stagger:0.08, ease:'power2.out',
+    scrollTrigger:{trigger:'#outro', start:'top 70%'}
+  });
 
-            hoverTargets.forEach(target => {
-                target.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
-                target.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
-            });
-        }
+  ScrollTrigger.addEventListener('refreshInit', setVH);
 
-        // 3. Hero Animation Timeline
-        const heroTl = gsap.timeline({ defaults: { ease: 'power3.out' } });
-        
-        heroTl
-            .to('.hero-line-v1', { scaleY: 1, duration: 1.5 })
-            .to('.hero-line-v2', { scaleY: 1, duration: 1.5 }, '-=1.3')
-            .to('.hero-line-h1', { scaleX: 1, duration: 1.5 }, '-=1.3')
-            .to('.hero-visual img', { filter: 'blur(0px) grayscale(0%)', scale: 1, duration: 2 }, '-=1')
-            .to('.hero-meta', { opacity: 1, y: 0, duration: 1, stagger: 0.2 }, '-=1.5')
-            .to('.clip-text-inner', { y: '0%', duration: 1.2, stagger: 0.1, ease: 'power4.out' }, '-=1')
-            .to('.hero-bottom', { opacity: 1, duration: 1 }, '-=0.5');
-
-        // 4. Problem Section: Text Reveal on Scroll
-        const problemLines = document.querySelectorAll('.problem-line');
-        problemLines.forEach(line => {
-            const threshold = line.getAttribute('data-threshold') || 0.5;
-            ScrollTrigger.create({
-                trigger: line,
-                start: `top ${100 - (threshold * 100)}%`,
-                end: `top 20%`,
-                onEnter: () => line.classList.add('active'),
-                onLeaveBack: () => line.classList.remove('active')
-            });
-        });
-
-        // 5. Reveal Section: Panel Merge
-        const revealPanels = document.querySelectorAll('.reveal-panel');
-        gsap.to(revealPanels, {
-            scrollTrigger: {
-                trigger: '#reveal',
-                start: 'top center',
-                end: 'center center',
-                scrub: 1
-            },
-            gap: 0,
-            borderRadius: 0,
-            onComplete: () => {
-                revealPanels.forEach(p => p.classList.add('merged'));
-            }
-        });
-
-        // 6. Benefits: Sticky Scroll & Image Swap
-        const benefitItems = document.querySelectorAll('.benefit-item');
-        const benefitImages = document.querySelectorAll('.benefit-img');
-
-        benefitItems.forEach((item, index) => {
-            ScrollTrigger.create({
-                trigger: item,
-                start: 'top center',
-                end: 'bottom center',
-                onEnter: () => activateBenefit(index),
-                onEnterBack: () => activateBenefit(index)
-            });
-        });
-
-        function activateBenefit(index) {
-            benefitItems.forEach((el, i) => {
-                el.classList.toggle('active', i === index);
-            });
-            benefitImages.forEach((el, i) => {
-                el.classList.toggle('active', i === index);
-            });
-        }
-
-        // 7. Product Lab: Line Drawing on Scroll
-        const labLines = document.querySelectorAll('.lab-line');
-        ScrollTrigger.create({
-            trigger: '#product-lab',
-            start: 'top 60%',
-            end: 'center center',
-            scrub: 1,
-            onUpdate: (self) => {
-                if (self.progress > 0.3) {
-                    labLines.forEach(line => line.classList.add('drawn'));
-                } else {
-                    labLines.forEach(line => line.classList.remove('drawn'));
-                }
-            }
-        });
-
-        // 8. Material: Horizontal Scroll Effect (Desktop only)
-        if (window.innerWidth > 768) {
-            const materialScroll = document.querySelector('.material-scroll');
-            gsap.to(materialScroll, {
-                x: () => -(materialScroll.scrollWidth - window.innerWidth + 100),
-                ease: 'none',
-                scrollTrigger: {
-                    trigger: '#material',
-                    start: 'top top',
-                    end: () => `+=${materialScroll.scrollWidth}`,
-                    scrub: 1,
-                    pin: true,
-                    anticipatePin: 1
-                }
-            });
-        }
-
-        // 9. Comparison: Line Fill
-        ScrollTrigger.create({
-            trigger: '#comparison',
-            start: 'top center',
-            end: 'bottom center',
-            scrub: true,
-            onUpdate: (self) => {
-                document.querySelector('.comparison-line::after') // Note: pseudo-elements need CSS variable or specific targeting. 
-                // Better approach for pseudo-element animation via GSAP:
-                document.documentElement.style.setProperty('--comp-progress', self.progress * 100 + '%');
-            }
-        });
-        // Add this to CSS dynamically for the comparison line:
-        const styleSheet = document.createElement("style");
-        styleSheet.innerText = `.comparison-line::after { height: var(--comp-progress, 0%); }`;
-        document.head.appendChild(styleSheet);
-
-        // 10. FAQ: Accordion
-        const faqItems = document.querySelectorAll('.faq-item');
-        faqItems.forEach(item => {
-            const btn = item.querySelector('.faq-question');
-            const answer = item.querySelector('.faq-answer');
-            
-            btn.addEventListener('click', () => {
-                const isActive = item.classList.contains('active');
-                
-                // Close all
-                faqItems.forEach(i => {
-                    i.classList.remove('active');
-                    i.querySelector('.faq-answer').style.maxHeight = null;
-                });
-                
-                // Open clicked if it wasn't active
-                if (!isActive) {
-                    item.classList.add('active');
-                    answer.style.maxHeight = answer.scrollHeight + "px";
-                }
-            });
-        });
-
-        // 11. Final CTA: Blackout Reveal
-        ScrollTrigger.create({
-            trigger: '#final-cta',
-            start: 'bottom 80%',
-            onEnter: () => {
-                document.querySelector('.final-blackout').classList.add('visible');
-            },
-            onLeaveBack: () => {
-                document.querySelector('.final-blackout').classList.remove('visible');
-            }
-        });
-
-        // Refresh ScrollTrigger on resize
-        window.addEventListener('resize', () => {
-            ScrollTrigger.refresh();
-        });
-
-    </script>
+})();
+</script>
 </body>
 </html>
