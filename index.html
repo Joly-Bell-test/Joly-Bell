@@ -1,3733 +1,688 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>JOLY.BELL — MILITARY FULL / OBJECT 01</title>
-
-<meta
-  name="description"
-  content="JOLY.BELL — MILITARY FULL. One object, many purposes."
->
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-<link
-  href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,500;0,700;0,900;1,500&family=IBM+Plex+Mono:wght@400;500&display=swap"
-  rel="stylesheet"
->
-
-<style>
-
-:root{
-  --black:#0a0a0a;
-  --near-black:#121212;
-  --panel:#161615;
-  --white:#f2f1ec;
-  --off:#c9c8c1;
-  --grey:#7a7a74;
-  --line:rgba(242,241,236,0.14);
-  --line-strong:rgba(242,241,236,0.28);
-  --ease:cubic-bezier(.16,.84,.32,1);
-  --vh:1vh;
-}
-
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
-
-html{
-  scroll-behavior:auto;
-}
-
-body{
-  background:var(--black);
-  color:var(--white);
-  font-family:'Archivo',sans-serif;
-  overflow-x:hidden;
-  -webkit-font-smoothing:antialiased;
-  cursor:default;
-}
-
-img{
-  display:block;
-  max-width:100%;
-}
-
-a{
-  color:inherit;
-  text-decoration:none;
-}
-
-button{
-  font-family:inherit;
-  background:none;
-  border:none;
-  color:inherit;
-  cursor:pointer;
-}
-
-::selection{
-  background:var(--white);
-  color:var(--black);
-}
-
-a:focus-visible,
-button:focus-visible{
-  outline:1px solid var(--white);
-  outline-offset:4px;
-}
-
-.sr-only{
-  position:absolute;
-  width:1px;
-  height:1px;
-  padding:0;
-  margin:-1px;
-  overflow:hidden;
-  clip:rect(0,0,0,0);
-  white-space:nowrap;
-  border:0;
-}
-
-.mono{
-  font-family:'IBM Plex Mono',monospace;
-  font-size:11px;
-  letter-spacing:0.08em;
-  color:var(--grey);
-}
-
-
-/* =========================================================
-   LOADER
-========================================================= */
-
-#loader{
-  position:fixed;
-  inset:0;
-  background:var(--black);
-  z-index:999;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-#loader .lw{
-  font-family:'IBM Plex Mono',monospace;
-  font-size:12px;
-  letter-spacing:.2em;
-  color:var(--grey);
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:18px;
-}
-
-#loader .bar{
-  width:160px;
-  height:1px;
-  background:var(--line);
-  position:relative;
-  overflow:hidden;
-}
-
-#loader .bar span{
-  position:absolute;
-  left:0;
-  top:0;
-  height:100%;
-  width:0%;
-  background:var(--white);
-}
-
-
-/* =========================================================
-   NAVIGATION
-========================================================= */
-
-header.site-nav{
-  position:fixed;
-  top:0;
-  left:0;
-  right:0;
-  z-index:100;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:26px 40px;
-  mix-blend-mode:difference;
-}
-
-.nav-mark{
-  font-weight:900;
-  font-size:15px;
-  letter-spacing:.02em;
-}
-
-.nav-links{
-  display:flex;
-  gap:28px;
-}
-
-.nav-links a{
-  font-family:'IBM Plex Mono',monospace;
-  font-size:11px;
-  letter-spacing:.08em;
-  color:var(--off);
-  transition:color .3s ease;
-}
-
-.nav-links a:hover{
-  color:var(--white);
-}
-
-.nav-index{
-  font-family:'IBM Plex Mono',monospace;
-  font-size:11px;
-  color:var(--off);
-}
-
-@media(max-width:720px){
-
-  .nav-links{
-    display:none;
-  }
-
-  header.site-nav{
-    padding:18px 20px;
-  }
-
-}
-
-
-/* =========================================================
-   GLOBAL
-========================================================= */
-
-section{
-  position:relative;
-  width:100%;
-}
-
-.wrap{
-  max-width:1400px;
-  margin:0 auto;
-  padding:0 40px;
-}
-
-@media(max-width:720px){
-
-  .wrap{
-    padding:0 20px;
-  }
-
-}
-
-.eyebrow{
-  font-family:'IBM Plex Mono',monospace;
-  font-size:11px;
-  letter-spacing:.1em;
-  color:var(--grey);
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
-
-.eyebrow .dash{
-  width:24px;
-  height:1px;
-  background:var(--line-strong);
-}
-
-
-/* =========================================================
-   REAL IMAGE SYSTEM
-========================================================= */
-
-.ph{
-  position:relative;
-  background-repeat:no-repeat;
-  background-position:center;
-  background-size:cover;
-  overflow:hidden;
-  isolation:isolate;
-}
-
-.ph::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:
-    linear-gradient(
-      135deg,
-      rgba(242,241,236,.025),
-      transparent 35%,
-      rgba(0,0,0,.08)
-    );
-  pointer-events:none;
-  z-index:2;
-}
-
-.ph-tag{
-  position:absolute;
-  bottom:14px;
-  right:16px;
-  z-index:3;
-  font-family:'IBM Plex Mono',monospace;
-  font-size:9px;
-  letter-spacing:.08em;
-  color:rgba(242,241,236,.4);
-  pointer-events:none;
-}
-
-
-/* ---------------------------------------------------------
-   HERO
---------------------------------------------------------- */
-
-.ph-1{
-  background-image:url("https://cdn.shopify.com/s/files/1/0809/9184/6641/files/6gn2E4Dw1SMvlus.png?v=1788104359");
-  background-position:center center;
-}
-
-.ph-1::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:
-    linear-gradient(
-      180deg,
-      rgba(0,0,0,.12) 0%,
-      rgba(0,0,0,.04) 40%,
-      rgba(0,0,0,.2) 100%
-    );
-  z-index:1;
-}
-
-
-/* ---------------------------------------------------------
-   REVEAL
---------------------------------------------------------- */
-
-.ph-3a{
-  background-image:url("https://cdn.shopify.com/s/files/1/0809/9184/6641/files/n5mO0CaKBeRXCzu.png?v=1788104348");
-  background-position:center;
-}
-
-.ph-3b{
-  background-image:url("https://cdn.shopify.com/s/files/1/0809/9184/6641/files/Bgvu89uqdcnYouC.png?v=1788104348");
-  background-position:center;
-}
-
-.ph-3c{
-  background-image:url("https://cdn.shopify.com/s/files/1/0809/9184/6641/files/s78rOhDePZ6Cn5j.png?v=1788104348");
-  background-position:center;
-}
-
-
-/* ---------------------------------------------------------
-   BENEFITS
---------------------------------------------------------- */
-
-.ph-4{
-  background-image:url("https://cdn.shopify.com/s/files/1/0809/9184/6641/files/Tn1Z3U5CRpbQYw1.png?v=1788104348");
-  background-position:center;
-}
-
-.ph-6a{
-  background-image:url("https://cdn.shopify.com/s/files/1/0809/9184/6641/files/HE4xiuV5cIowZlU.png?v=1788104355");
-  background-position:center;
-}
-
-.ph-6b{
-  background-image:url("https://cdn.shopify.com/s/files/1/0809/9184/6641/files/egBbjATQ1Ey85GA.png?v=1788104355");
-  background-position:center;
-}
-
-.ph-6c{
-  background-image:url("https://cdn.shopify.com/s/files/1/0809/9184/6641/files/b73i43xzboEwGIe.png?v=1788104355");
-  background-position:center;
-}
-
-
-/* ---------------------------------------------------------
-   LAB
---------------------------------------------------------- */
-
-.ph-5{
-  background-image:url("https://cdn.shopify.com/s/files/1/0809/9184/6641/files/XLhrO1vNnPewnoq.png?v=1788104359");
-  background-position:center;
-}
-
-
-/* ---------------------------------------------------------
-   SOCIAL / LIFESTYLE
---------------------------------------------------------- */
-
-.ph-7a{
-  background-image:url("https://cdn.shopify.com/s/files/1/0809/9184/6641/files/a2axwHQ5GQzncqH.png?v=1788104359");
-  background-position:center;
-}
-
-.ph-7b{
-  background-image:url("https://cdn.shopify.com/s/files/1/0809/9184/6641/files/EjMVsROlW3lsKWb.png?v=1788104359");
-  background-position:center;
-}
-
-
-/* ---------------------------------------------------------
-   OFFER
---------------------------------------------------------- */
-
-.ph-8{
-  background-image:url("https://cdn.shopify.com/s/files/1/0809/9184/6641/files/PN8Dl77N0ngdsFk.png?v=1788104359");
-  background-position:center;
-}
-
-
-/* ---------------------------------------------------------
-   COMPARISON
---------------------------------------------------------- */
-
-.ph-9a{
-  background-image:url("https://cdn.shopify.com/s/files/1/0809/9184/6641/files/n5mO0CaKBeRXCzu.png?v=1788104348");
-  background-position:center;
-}
-
-.ph-9b{
-  background-image:url("https://cdn.shopify.com/s/files/1/0809/9184/6641/files/XLhrO1vNnPewnoq.png?v=1788104359");
-  background-position:center;
-}
-
-
-/* ---------------------------------------------------------
-   FINAL
---------------------------------------------------------- */
-
-.ph-11{
-  background-image:url("https://cdn.shopify.com/s/files/1/0809/9184/6641/files/6gn2E4Dw1SMvlus.png?v=1788104359");
-  background-position:center center;
-}
-
-
-/* =========================================================
-   SECTION 01 — HERO
-========================================================= */
-
-#hero{
-  height:100svh;
-  min-height:560px;
-  display:flex;
-  flex-direction:column;
-  justify-content:flex-end;
-}
+Ты работаешь с моим текущим одностраничным сайтом JOLY.BELL.
 
-#hero .ph-1{
-  position:absolute;
-  inset:0;
-}
+Я ниже дам тебе:
+1. мой текущий полный `index.html`;
+2. список из 21 реальной фотографии товара.
 
-#hero .hero-fade{
-  position:absolute;
-  inset:0;
-  background:
-    linear-gradient(
-      180deg,
-      rgba(10,10,10,.08) 0%,
-      rgba(10,10,10,.12) 48%,
-      rgba(10,10,10,.9) 100%
-    );
-  z-index:1;
-}
+Твоя задача — **НЕ создавать сайт заново** и **НЕ менять концепцию сайта**. Тебе нужно взять существующий код и профессионально переработать именно работу с фотографиями.
 
-#hero .hero-content{
-  position:relative;
-  z-index:3;
-  padding:0 40px 64px;
-}
+## ГЛАВНАЯ ПРОБЛЕМА
 
-#hero .hero-top{
-  position:absolute;
-  z-index:3;
-  top:100px;
-  left:40px;
-  right:40px;
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-start;
-}
+Сейчас фотографии выглядят слишком большими.
 
-#hero .obj-label{
-  writing-mode:vertical-rl;
-  text-orientation:mixed;
-}
+Из-за использования `background-size: cover` многие изображения визуально обрезаются по левому и правому краю. Получается ощущение, будто фотография увеличена и часть изображения просто исчезла.
 
-.h1-brand{
-  font-weight:900;
-  font-size:clamp(54px,11vw,168px);
-  line-height:.86;
-  letter-spacing:-.01em;
-  overflow:hidden;
-}
+Особенно это заметно на фотографиях, где:
+- рюкзак/сумка находится целиком в кадре;
+- вокруг продукта есть свободное пространство;
+- фотография имеет вертикальную композицию;
+- объект находится не строго в центре;
+- важные детали находятся близко к краям.
 
-.h1-brand span{
-  display:inline-block;
-  transform:translateY(110%);
-}
+Мне НЕ нужно просто поставить `contain` абсолютно на все фотографии.
 
-.hero-sub{
-  max-width:420px;
-  margin-top:22px;
-  font-size:15px;
-  line-height:1.6;
-  color:var(--off);
-  opacity:0;
-}
+Мне нужно, чтобы ты **проанализировал каждую из 21 фотографий отдельно** и выбрал для неё правильный способ отображения.
 
-.hero-meta{
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-end;
-  margin-top:40px;
-}
+---
 
-.cta{
-  display:inline-flex;
-  align-items:center;
-  gap:10px;
-  font-family:'IBM Plex Mono',monospace;
-  font-size:12px;
-  letter-spacing:.1em;
-  padding:16px 26px;
-  border:1px solid var(--line-strong);
-  transition:
-    background .4s var(--ease),
-    color .4s var(--ease),
-    border-color .4s var(--ease);
-}
+# 1. ПРОАНАЛИЗИРУЙ ВСЕ 21 ФОТОГРАФИЮ
 
-.cta:hover{
-  background:var(--white);
-  color:var(--black);
-  border-color:var(--white);
-}
+Перед изменением кода внимательно посмотри на каждую фотографию.
 
-.scroll-cue{
-  font-family:'IBM Plex Mono',monospace;
-  font-size:11px;
-  letter-spacing:.08em;
-  color:var(--off);
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:8px;
-  opacity:0;
-}
+Для каждой определи:
 
-.scroll-cue .stick{
-  width:1px;
-  height:26px;
-  background:var(--line-strong);
-  position:relative;
-  overflow:hidden;
-}
+- реальное соотношение сторон;
+- вертикальная она, горизонтальная или квадратная;
+- где находится главный объект;
+- насколько близко объект находится к краям;
+- является ли это product shot;
+- является ли это lifestyle/editorial shot;
+- можно ли её безопасно обрезать;
+- нужно ли показывать фотографию полностью;
+- какой масштаб будет выглядеть лучше;
+- какая `background-position` нужна;
+- нужен ли `contain`;
+- нужен ли `cover`;
+- нужен ли дополнительный внутренний padding;
+- нужно ли отдельное поведение на mobile.
 
-.scroll-cue .stick i{
-  display:block;
-  width:100%;
-  height:40%;
-  background:var(--white);
-  position:absolute;
-  top:-40%;
-  animation:drip 1.8s var(--ease) infinite;
-}
+Не используй один универсальный CSS для всех фотографий.
 
-@keyframes drip{
-  to{
-    top:140%;
-  }
-}
+---
 
-@media(max-width:720px){
+# 2. PRODUCT PHOTOS
 
-  #hero .hero-top{
-    left:20px;
-    right:20px;
-    top:82px;
-  }
+Если на фотографии показан продукт целиком, моя главная задача:
 
-  #hero .hero-content{
-    padding:0 20px 36px;
-  }
+**ПРОДУКТ ДОЛЖЕН БЫТЬ ВИДЕН ЦЕЛИКОМ.**
 
-  .hero-sub{
-    max-width:340px;
-    font-size:14px;
-  }
+Не обрезай:
+- верх рюкзака;
+- низ;
+- боковые части;
+- ручки;
+- лямки;
+- карманы;
+- выступающие элементы;
+- детали, находящиеся у краёв.
 
-  .hero-meta{
-    margin-top:28px;
-  }
+Для таких фотографий предпочитай:
 
-  .scroll-cue{
-    display:none;
-  }
+`background-size: contain`
 
-}
+или другой способ, который гарантирует полный показ изображения.
 
+Но `contain` не должен выглядеть как маленькая картинка, потерянная в огромном чёрном блоке.
 
-/* =========================================================
-   SECTION 02 — PROBLEM
-========================================================= */
+Поэтому регулируй:
 
-#problem{
-  min-height:100vh;
-  padding:22vh 0;
-  display:flex;
-  align-items:center;
-}
+- масштаб;
+- padding;
+- высоту контейнера;
+- position;
+- размеры самого visual-блока.
 
-#problem .lines{
-  display:flex;
-  flex-direction:column;
-  gap:2px;
-}
+Нужно добиться ощущения дорогой fashion/editorial презентации.
 
-.line-op{
-  font-weight:900;
-  font-size:clamp(34px,7.4vw,108px);
-  line-height:1.02;
-  letter-spacing:-.01em;
-  color:var(--grey);
-}
+То есть не:
 
-.line-op.on{
-  color:var(--white);
-}
+`[огромный чёрный блок + маленькая фотография]`
 
-#problem .sub-lines{
-  margin-top:56px;
-  display:flex;
-  flex-direction:column;
-  gap:10px;
-}
+а:
 
-#problem .sub-lines p{
-  font-family:'IBM Plex Mono',monospace;
-  font-size:13px;
-  letter-spacing:.04em;
-  color:var(--off);
-}
+`[пространство + крупный, но полностью видимый продукт]`
 
-#problem .final-line{
-  margin-top:52px;
-  font-weight:700;
-  font-size:clamp(24px,3.6vw,40px);
-}
+---
 
+# 3. LIFESTYLE / EDITORIAL PHOTOS
 
-/* =========================================================
-   SECTION 03 — REVEAL
-========================================================= */
+Если фотография сама по себе атмосферная и её композиция допускает небольшой кроп — можешь использовать:
 
-#reveal{
-  min-height:120vh;
-  padding:16vh 0 10vh;
-}
+`background-size: cover`
 
-#reveal .panels{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:6px;
-  height:70vh;
-  min-height:420px;
-  margin-top:60px;
-}
+Но только если это действительно улучшает композицию.
 
-#reveal .panel{
-  position:relative;
-  background-color:#10100f;
-}
+Не обрезай важные части фотографии просто ради заполнения блока.
 
-#reveal .after-text{
-  margin-top:56px;
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-end;
-  flex-wrap:wrap;
-  gap:20px;
-}
+Для таких изображений самостоятельно подбирай:
 
-#reveal .after-text h3{
-  font-weight:900;
-  font-size:clamp(28px,4.6vw,58px);
-  line-height:1.05;
-}
+`background-position`
 
-@media(max-width:720px){
+например:
 
-  #reveal .panels{
-    grid-template-columns:1fr;
-    height:auto;
-  }
+- center center;
+- center top;
+- 45% center;
+- 60% center;
+- и т.д.
 
-  #reveal .panel{
-    height:58vh;
-    min-height:300px;
-  }
+Позиция должна зависеть от реального расположения объекта на конкретной фотографии.
 
-}
+---
 
+# 4. НЕ УВЕЛИЧИВАЙ ФОТОГРАФИИ БЕЗ НЕОБХОДИМОСТИ
 
-/* =========================================================
-   SECTION 04 — BENEFITS
-========================================================= */
+Сейчас некоторые изображения визуально выглядят так, будто камера находится слишком близко к продукту.
 
-#benefits{
-  padding:14vh 0;
-}
+Исправь это.
 
-.benefits-grid{
-  display:grid;
-  grid-template-columns:.9fr 1.1fr;
-  gap:60px;
-  align-items:start;
-}
+Я хочу видеть немного больше пространства вокруг объекта.
 
-.benefits-left{
-  position:sticky;
-  top:0;
-  height:100vh;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-}
+Особенно для product images.
 
-.benefits-left h2{
-  font-weight:900;
-  font-size:clamp(30px,4vw,52px);
-  margin-bottom:40px;
-  line-height:1.05;
-}
+Лучше:
 
-.benefit-states{
-  position:relative;
-  height:150px;
-}
+**полный продукт + немного воздуха**
 
-.benefit-state{
-  position:absolute;
-  inset:0;
-  opacity:0;
-  transform:translateY(16px);
-}
+чем:
 
-.benefit-state .num{
-  font-family:'IBM Plex Mono',monospace;
-  font-size:12px;
-  color:var(--grey);
-  margin-bottom:12px;
-}
+**огромный продукт + обрезанные края.**
 
-.benefit-state h3{
-  font-weight:700;
-  font-size:clamp(22px,2.6vw,32px);
-  margin-bottom:10px;
-}
+---
 
-.benefit-state p{
-  color:var(--off);
-  font-size:14px;
-  line-height:1.6;
-  max-width:360px;
-}
+# 5. СОЗДАЙ РАЗНЫЕ ТИПЫ IMAGE PRESENTATION
 
-.benefit-visual{
-  height:340vh;
-  position:relative;
-}
+Не делай все изображения одинаковыми.
 
-.benefit-visual-inner{
-  position:sticky;
-  top:12vh;
-  height:76vh;
-  overflow:hidden;
-  background:#111;
-}
+Используй несколько типов:
 
-.benefit-visual-inner .ph{
-  position:absolute;
-  inset:0;
-  transform:scale(1.04);
-  transition:background-image .35s ease;
-}
+### TYPE A — FULL PRODUCT
 
-@media(max-width:900px){
-
-  .benefits-grid{
-    grid-template-columns:1fr;
-  }
-
-  .benefits-left{
-    position:static;
-    height:auto;
-    padding-bottom:35px;
-  }
-
-  .benefit-visual{
-    height:auto;
-  }
-
-  .benefit-visual-inner{
-    position:static;
-    height:65vh;
-    min-height:400px;
-  }
-
-  .benefit-states{
-    height:auto;
-  }
-
-  .benefit-state{
-    position:static;
-    opacity:1;
-    transform:none;
-    display:none;
-  }
-
-  .benefit-state.mobile-on{
-    display:block;
-  }
+Полностью видимый продукт.
 
-}
+Подходит для:
+- Product Lab;
+- Benefits;
+- Offer;
+- некоторых Reveal panels.
 
+Можно использовать:
+- `contain`;
+- controlled scale;
+- внутренний padding;
+- subtle background;
+- технические линии.
 
-/* =========================================================
-   SECTION 05 — PRODUCT LAB
-========================================================= */
+### TYPE B — EDITORIAL
 
-#lab{
-  background:var(--white);
-  color:var(--black);
-  padding:16vh 0;
-}
+Большая фотография, занимающая почти весь блок.
 
-#lab .eyebrow{
-  color:#6f6e67;
-}
+Можно использовать:
 
-#lab .eyebrow .dash{
-  background:rgba(10,10,10,.25);
-}
+`cover`
 
-#lab h2{
-  font-weight:900;
-  font-size:clamp(30px,4vw,52px);
-  margin:20px 0 60px;
-  max-width:640px;
-  line-height:1.06;
-}
+но без уничтожения композиции.
 
-.lab-stage{
-  position:relative;
-  aspect-ratio:16/10;
-  max-height:76vh;
-  overflow:hidden;
-  background:#deddd6;
-}
+### TYPE C — DETAIL
 
-.lab-stage .ph{
-  position:absolute;
-  inset:0;
-  filter:grayscale(.12) contrast(1.05);
-}
+Close-up фотографии материалов, молний, ткани, фурнитуры и деталей.
 
-.lab-point{
-  position:absolute;
-  width:10px;
-  height:10px;
-  z-index:5;
-}
+Такие изображения можно показывать крупнее.
 
-.lab-point .dot{
-  width:10px;
-  height:10px;
-  border-radius:50%;
-  background:var(--black);
-  position:relative;
-}
+### TYPE D — FLOATING PRODUCT
 
-.lab-point .ring{
-  position:absolute;
-  inset:-8px;
-  border:1px solid rgba(10,10,10,.4);
-  border-radius:50%;
-  opacity:0;
-}
+Продукт находится внутри большого тёмного пространства.
 
-.lab-point.active .ring{
-  opacity:1;
-  animation:labPulse 1.6s ease-in-out infinite;
-}
+Здесь фотография должна выглядеть как объект в галерее, а не как background.
 
-@keyframes labPulse{
+Можно использовать отдельный `<div>` с:
 
-  0%,100%{
-    transform:scale(.8);
-    opacity:.25;
-  }
+`background-size: contain`
 
-  50%{
-    transform:scale(1.15);
-    opacity:1;
-  }
+или даже `<img>` с:
 
-}
+`object-fit: contain`.
 
-.lab-point .lbl{
-  position:absolute;
-  left:20px;
-  top:-6px;
-  white-space:nowrap;
-  font-family:'IBM Plex Mono',monospace;
-  font-size:11px;
-  letter-spacing:.06em;
-  display:flex;
-  align-items:center;
-  gap:8px;
-  opacity:0;
-  transform:translateX(-6px);
-  transition:
-    opacity .35s var(--ease),
-    transform .35s var(--ease);
-}
+---
 
-.lab-point.active .lbl{
-  opacity:1;
-  transform:translateX(0);
-}
+# 6. Я РАЗРЕШАЮ ТЕБЕ ИЗМЕНЯТЬ IMAGE COMPOSITION
 
-.lab-point .lbl .ln{
-  width:20px;
-  height:1px;
-  background:rgba(10,10,10,.5);
-}
+Ты можешь немного изменить дизайн существующих image-блоков.
 
-.lab-point .num{
-  font-family:'IBM Plex Mono',monospace;
-  font-weight:500;
-}
+Например:
 
-@media(max-width:720px){
-
-  .lab-stage{
-    aspect-ratio:4/5;
-    max-height:none;
-  }
-
-  .lab-point{
-    position:static;
-    width:auto;
-    height:auto;
-    display:flex;
-    align-items:center;
-    gap:10px;
-    margin-bottom:18px;
-  }
-
-  .lab-point .lbl{
-    position:static;
-    opacity:1;
-    transform:none;
-  }
-
-  .lab-point .ring{
-    display:none;
-  }
-
-  .lab-stage{
-    overflow:visible;
-    background:none;
-  }
-
-  .lab-stage > .ph{
-    position:relative;
-    height:55vh;
-    margin-bottom:30px;
-  }
+- добавить больше whitespace;
+- уменьшить высоту некоторых visual blocks;
+- изменить aspect ratio;
+- изменить положение изображения;
+- сделать product image floating;
+- добавить тонкую рамку;
+- добавить технические метки;
+- добавить subtle grid;
+- изменить overlay;
+- изменить размеры изображений между desktop/mobile;
+- сделать некоторые фотографии меньше внутри большого блока;
+- сделать некоторые фотографии крупнее.
 
-}
+Но общий стиль должен остаться:
 
+**JOLY.BELL**
+- black;
+- white;
+- industrial;
+- luxury;
+- editorial;
+- minimal;
+- technical;
+- fashion campaign;
+- Awwwards-level.
 
-/* =========================================================
-   SECTION 06 — MATERIAL
-========================================================= */
+Не превращай сайт в обычный интернет-магазин.
 
-#material{
-  padding:18vh 0 14vh;
-}
+---
 
-#material h2{
-  font-weight:900;
-  font-size:clamp(30px,4.4vw,56px);
-  margin-bottom:60px;
-}
+# 7. ОСОБЕННО ВАЖНО — MOBILE
 
-.material-row{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:6px;
-}
+На мобильном сейчас проблема с кропом становится ещё заметнее.
 
-.material-cell{
-  position:relative;
-  aspect-ratio:3/4;
-  overflow:hidden;
-  background:#111;
-}
+Поэтому сделай отдельную mobile image strategy.
 
-.material-cell .ph{
-  position:absolute;
-  inset:0;
-  transform:scale(1.5);
-  transform-origin:center;
-}
+Не просто:
 
-.material-cell .cap{
-  position:absolute;
-  left:14px;
-  bottom:14px;
-  z-index:3;
-  font-family:'IBM Plex Mono',monospace;
-  font-size:11px;
-  letter-spacing:.06em;
-  color:var(--off);
+```css
+@media (...) {
+    background-size: cover;
 }
+```
 
-@media(max-width:720px){
+для всего.
 
-  .material-row{
-    grid-template-columns:1fr;
-  }
+Для каждого типа фотографии решай отдельно.
 
-  .material-cell{
-    aspect-ratio:4/5;
-  }
+Например:
 
+```css
+.product-visual {
+    background-size: contain;
 }
+```
 
+и отдельно регулируй:
 
-/* =========================================================
-   SECTION 07 — SOCIAL PROOF
-========================================================= */
+```css
+background-position
+padding
+min-height
+```
 
-#proof{
-  padding:16vh 0;
-}
-
-#proof h2{
-  font-weight:900;
-  font-size:clamp(28px,3.8vw,46px);
-  margin-bottom:60px;
-}
-
-.proof-row{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:40px;
-}
-
-.proof-card{
-  border-top:1px solid var(--line);
-  padding-top:26px;
-}
+на mobile.
 
-.proof-card .ph{
-  aspect-ratio:4/5;
-  margin-bottom:24px;
-}
+Если фотография вертикальная — используй её вертикальную композицию.
 
-.proof-num{
-  font-family:'IBM Plex Mono',monospace;
-  font-size:12px;
-  color:var(--grey);
-  margin-bottom:14px;
-}
+Если горизонтальная — не заставляй её превращаться в сильно обрезанный квадрат.
 
-.proof-quote{
-  font-size:clamp(18px,2vw,24px);
-  line-height:1.4;
-  font-weight:500;
-  margin-bottom:16px;
-}
+Главная цель:
 
-.proof-meta{
-  font-family:'IBM Plex Mono',monospace;
-  font-size:11px;
-  letter-spacing:.06em;
-  color:var(--grey);
-}
+**На телефоне продукт тоже должен быть виден полностью.**
 
-@media(max-width:720px){
+---
 
-  .proof-row{
-    grid-template-columns:1fr;
-    gap:56px;
-  }
+# 8. ИСПРАВЬ СУЩЕСТВУЮЩУЮ СИСТЕМУ PLACEHOLDER-IMAGES
 
-}
+В текущем коде есть классы вроде:
 
+`.ph-1`
+`.ph-3a`
+`.ph-3b`
+`.ph-3c`
+`.ph-4`
+`.ph-5`
+`.ph-6a`
+`.ph-6b`
+`.ph-6c`
+`.ph-7a`
+`.ph-7b`
+`.ph-8`
+`.ph-9a`
+`.ph-9b`
+`.ph-11`
 
-/* =========================================================
-   SECTION 08 — OFFER
-========================================================= */
+Сейчас они используют placeholder/local assets.
 
-#offer{
-  padding:16vh 0;
-}
+Замени их на реальные фотографии.
 
-.offer-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:60px;
-  align-items:center;
-}
+Но не обязательно использовать одинаковую настройку для всех `.ph`.
 
-.offer-visual{
-  position:relative;
-  aspect-ratio:1/1;
-  min-height:450px;
-}
+Создай дополнительные классы/modifiers, если необходимо.
 
-.offer-name{
-  font-weight:900;
-  font-size:clamp(30px,4vw,50px);
-  line-height:1.04;
-  margin-bottom:10px;
-}
+Например:
 
-.offer-obj{
-  font-family:'IBM Plex Mono',monospace;
-  font-size:12px;
-  color:var(--grey);
-  margin-bottom:30px;
-}
+```css
+.ph-product
+.ph-editorial
+.ph-detail
+.ph-floating
+.ph-full
+```
 
-.offer-price{
-  font-weight:700;
-  font-size:clamp(30px,3.2vw,40px);
-  margin-bottom:6px;
-}
+или любую более подходящую архитектуру.
 
-.offer-avail{
-  font-family:'IBM Plex Mono',monospace;
-  font-size:11px;
-  color:var(--off);
-  margin-bottom:36px;
-}
+---
 
-.offer-list{
-  border-top:1px solid var(--line);
-  margin-bottom:36px;
-}
+# 9. НЕ ЛОМАЙ GSAP
 
-.offer-list div{
-  display:flex;
-  justify-content:space-between;
-  padding:16px 0;
-  border-bottom:1px solid var(--line);
-  font-size:14px;
-  color:var(--off);
-}
+В текущем сайте используются:
 
-.offer-list span:last-child{
-  color:var(--white);
-  font-family:'IBM Plex Mono',monospace;
-  font-size:11px;
-}
+- GSAP;
+- ScrollTrigger;
+- reveal animations;
+- hero animation;
+- product lab animation;
+- benefits switching;
+- material zoom;
+- offer reveal;
+- final CTA reveal.
 
-.big-cta{
-  display:inline-flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:20px;
-  width:100%;
-  padding:22px 26px;
-  border:1px solid var(--line-strong);
-  font-family:'IBM Plex Mono',monospace;
-  font-size:13px;
-  letter-spacing:.1em;
-  position:relative;
-  overflow:hidden;
-}
+Сохрани их.
 
-.big-cta span{
-  position:relative;
-  z-index:2;
-  transition:color .5s var(--ease);
-}
+Можно улучшить анимации фотографий, если это действительно поможет.
 
-.big-cta::before{
-  content:"";
-  position:absolute;
-  left:0;
-  top:0;
-  bottom:0;
-  width:0;
-  background:var(--white);
-  transition:width .5s var(--ease);
-  z-index:1;
-}
+Например:
 
-.big-cta:hover::before{
-  width:100%;
-}
+- лёгкий image scale;
+- subtle parallax;
+- opacity reveal;
+- clipping reveal;
+- image drift.
 
-.big-cta:hover span{
-  color:var(--black);
-}
+Но никаких чрезмерных эффектов.
 
-@media(max-width:820px){
+JOLY.BELL должен выглядеть дорого.
 
-  .offer-grid{
-    grid-template-columns:1fr;
-  }
+---
 
-  .offer-visual{
-    min-height:0;
-    aspect-ratio:1/1;
-  }
+# 10. ИСПРАВЬ REVEAL SECTION
 
-}
+В Reveal section сейчас используются три панели.
 
+Сделай их визуально более интересными.
 
-/* =========================================================
-   SECTION 09 — COMPARISON
-========================================================= */
+Если фотографии имеют разные пропорции, не заставляй все три изображения одинаково кропаться.
 
-#compare{
-  padding:16vh 0;
-}
+Можно:
 
-#compare h2{
-  font-weight:900;
-  font-size:clamp(28px,3.8vw,46px);
-  margin-bottom:60px;
-  text-align:center;
-}
+- изменить размеры панелей;
+- использовать разные image scales;
+- использовать `contain` для product shot;
+- использовать `cover` для editorial shot;
+- добавить небольшой gap;
+- анимацией раскрывать фотографии.
 
-.compare-split{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  border-top:1px solid var(--line);
-}
+ВАЖНО:
 
-.compare-col{
-  padding:34px 30px;
-}
+Если в текущем GSAP-коде есть что-то вроде:
 
-.compare-col:first-child{
-  border-right:1px solid var(--line);
-}
+```js
+.to('#revealPanels .panel', {gap: 0})
+```
 
-.compare-col .ph{
-  aspect-ratio:5/3;
-  margin-bottom:24px;
-}
+проверь, действительно ли `gap` находится на этом элементе.
 
-.compare-col h3{
-  font-weight:800;
-  font-size:clamp(18px,2vw,24px);
-  margin-bottom:24px;
-}
+Если `gap` находится у родителя `.panels`, исправь animation target.
 
-.compare-row{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:14px 0;
-  border-top:1px solid var(--line);
-  font-size:14px;
-}
+---
 
-.compare-row:last-child{
-  border-bottom:1px solid var(--line);
-}
+# 11. BENEFITS SECTION
 
-.compare-row .label{
-  color:var(--off);
-  font-family:'IBM Plex Mono',monospace;
-  font-size:11px;
-  letter-spacing:.05em;
-}
+В Benefits section сейчас изображения переключаются через JS:
 
-.compare-row .mark{
-  font-size:15px;
-}
+```js
+var imgs = ['ph-4','ph-6a','ph-6b','ph-6c'];
+```
 
-.mark.yes{
-  color:var(--white);
-}
+Сохрани эту механику.
 
-.mark.no{
-  color:var(--grey);
-}
+Но изображения должны переключаться красиво.
 
-@media(max-width:720px){
+Можно добавить:
 
-  .compare-split{
-    grid-template-columns:1fr;
-  }
+- crossfade;
+- scale;
+- slight blur → sharp;
+- clip reveal;
+- subtle movement.
 
-  .compare-col:first-child{
-    border-right:none;
-    border-bottom:1px solid var(--line);
-  }
+И обязательно:
 
-  .compare-col{
-    padding:25px 0;
-  }
+**каждая фотография должна быть полностью видна, если это product shot.**
 
-}
+---
 
+# 12. PRODUCT LAB
 
-/* =========================================================
-   SECTION 10 — FAQ
-========================================================= */
+Product Lab должен выглядеть как техническая fashion/product presentation.
 
-#faq{
-  padding:16vh 0;
-  background:var(--black);
-}
+Не делай фотографию огромной и обрезанной.
 
-#faq h2{
-  font-weight:900;
-  font-size:clamp(38px,7vw,90px);
-  margin-bottom:60px;
-}
+Лучше:
 
-.faq-item{
-  border-top:1px solid var(--line);
-}
+- продукт полностью;
+- много чёрного пространства;
+- тонкие технические линии;
+- точки;
+- labels;
+- координаты;
+- grid.
 
-.faq-item:last-child{
-  border-bottom:1px solid var(--line);
-}
+То есть фотография должна ощущаться как:
 
-.faq-q{
-  width:100%;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:26px 0;
-  text-align:left;
-  font-size:clamp(16px,2vw,20px);
-  font-weight:500;
-}
+**OBJECT / PRODUCT STUDY**
 
-.faq-q .qnum{
-  font-family:'IBM Plex Mono',monospace;
-  font-size:12px;
-  color:var(--grey);
-  margin-right:18px;
-}
+а не обычная карточка товара.
 
-.faq-q .qtxt{
-  flex:1;
-}
+---
 
-.faq-toggle{
-  position:relative;
-  width:16px;
-  height:16px;
-  flex-shrink:0;
-  margin-left:20px;
-}
+# 13. MATERIAL / DETAILS
 
-.faq-toggle i{
-  position:absolute;
-  background:var(--white);
-  transition:transform .4s var(--ease);
-}
+Здесь наоборот можно использовать фотографии крупнее.
 
-.faq-toggle i.h{
-  left:0;
-  top:50%;
-  width:16px;
-  height:1px;
-  transform:translateY(-50%);
-}
+Если это close-up ткани, молнии, материала или фурнитуры — допускается `cover`.
 
-.faq-toggle i.v{
-  top:0;
-  left:50%;
-  width:1px;
-  height:16px;
-  transform:translateX(-50%);
-}
+Но если в фотографии есть отдельный объект, который должен быть виден целиком, используй `contain`.
 
-.faq-item.open .faq-toggle i.v{
-  transform:translateX(-50%) scaleY(0);
-}
+Можно сделать красивую последовательность:
 
-.faq-a{
-  height:0;
-  overflow:hidden;
-  opacity:0;
-}
+DETAIL 01  
+DETAIL 02  
+DETAIL 03
 
-.faq-a p{
-  padding:0 0 28px 34px;
-  color:var(--off);
-  font-size:14px;
-  line-height:1.7;
-  max-width:560px;
-}
+с плавным zoom/reveal.
 
+---
 
-/* =========================================================
-   SECTION 11 — FINAL
-========================================================= */
+# 14. OFFER SECTION
 
-#final{
-  min-height:100vh;
-  position:relative;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
+Offer должен использовать одну из лучших фотографий товара.
 
-#final .ph{
-  position:absolute;
-  inset:0;
-}
+Но продукт не должен быть обрезан.
 
-#final .final-fade{
-  position:absolute;
-  inset:0;
-  background:
-    linear-gradient(
-      180deg,
-      rgba(10,10,10,.42),
-      rgba(10,10,10,.88)
-    );
-}
+Я хочу ощущение:
 
-#final .final-content{
-  position:relative;
-  z-index:2;
-  text-align:center;
-}
+**luxury product campaign**
 
-#final .fw{
-  font-weight:900;
-  font-size:clamp(46px,10vw,150px);
-  line-height:.9;
-  overflow:hidden;
-}
+а не:
 
-#final .fw span{
-  display:inline-block;
-  transform:translateY(110%);
-}
+**огромный background image.**
 
-#final .final-tag{
-  margin-top:24px;
-  font-size:15px;
-  color:var(--off);
-}
+Можно сделать фотографию немного меньше внутри visual-блока и оставить вокруг неё тёмное пространство.
 
-#final .final-price{
-  margin-top:30px;
-  font-weight:700;
-  font-size:22px;
-}
+---
 
-#final .cta{
-  margin-top:26px;
-}
+# 15. FINAL CTA
 
+Final CTA должен использовать одну из самых сильных фотографий.
 
-/* =========================================================
-   OUTRO
-========================================================= */
-
-#outro{
-  height:100vh;
-  background:var(--black);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  flex-direction:column;
-  gap:14px;
-}
+Здесь допустим более cinematic `cover`.
 
-#outro .mark{
-  font-weight:900;
-  font-size:clamp(28px,4vw,44px);
-}
+Но сначала проверь композицию.
 
+Если человек/рюкзак/главный объект находится сбоку, не ставь:
 
-/* =========================================================
-   FOOTER
-========================================================= */
-
-footer.site-foot{
-  padding:30px 40px;
-  display:flex;
-  justify-content:space-between;
-  font-family:'IBM Plex Mono',monospace;
-  font-size:11px;
-  color:var(--grey);
-  border-top:1px solid var(--line);
-}
+```css
+background-position:center;
+```
 
-@media(max-width:720px){
+автоматически.
 
-  footer.site-foot{
-    flex-direction:column;
-    gap:8px;
-    padding:24px 20px;
-  }
+Подбери позицию под конкретное изображение.
 
-}
+---
 
+# 16. ВСЕ 21 ФОТОГРАФИИ
 
-/* =========================================================
-   CUSTOM CURSOR
-========================================================= */
-
-.cursor-dot{
-  position:fixed;
-  top:0;
-  left:0;
-  width:8px;
-  height:8px;
-  border-radius:50%;
-  background:var(--white);
-  pointer-events:none;
-  z-index:9999;
-  transform:translate(-50%,-50%);
-  mix-blend-mode:difference;
-  transition:
-    width .25s var(--ease),
-    height .25s var(--ease);
-}
+Вот реальные изображения:
 
-.cursor-dot.big{
-  width:44px;
-  height:44px;
-}
+1.
+https://cdn.shopify.com/s/files/1/0809/9184/6641/files/n5mO0CaKBeRXCzu.png?v=1788104348
 
-@media(hover:none),(max-width:900px){
+2.
+https://cdn.shopify.com/s/files/1/0809/9184/6641/files/Bgvu89uqdcnYouC.png?v=1788104348
 
-  .cursor-dot{
-    display:none;
-  }
+3.
+https://cdn.shopify.com/s/files/1/0809/9184/6641/files/s78rOhDePZ6Cn5j.png?v=1788104348
 
-}
+4.
+https://cdn.shopify.com/s/files/1/0809/9184/6641/files/n1HhP6Dh3O4zGK9.png?v=1788104348
 
+5.
+https://cdn.shopify.com/s/files/1/0809/9184/6641/files/Tn1Z3U5CRpbQYw1.png?v=1788104348
 
-/* =========================================================
-   REDUCED MOTION
-========================================================= */
+6.
+https://cdn.shopify.com/s/files/1/0809/9184/6641/files/8LLfcIlQhuo8jfd.png?v=1788104354
 
-@media(prefers-reduced-motion:reduce){
+7.
+https://cdn.shopify.com/s/files/1/0809/9184/6641/files/egBbjATQ1Ey85GA.png?v=1788104355
 
-  *,
-  *::before,
-  *::after{
-    animation-duration:.001ms !important;
-    animation-iteration-count:1 !important;
-    transition-duration:.001ms !important;
-  }
+8.
+https://cdn.shopify.com/s/files/1/0809/9184/6641/files/HY488IR2AKXHarK.png?v=1788104355
 
-}
+9.
+https://cdn.shopify.com/s/files/1/0809/9184/6641/files/v0rC835rocfVqA3.png?v=1788104355
 
-</style>
-</head>
+10.
+https://cdn.shopify.com/s/files/1/0809/9184/6641/files/lbBCxNGkRFpMeJY.png?v=1788104355
 
+11.
+https://cdn.shopify.com/s/files/1/0809/9184/6641/files/nk0M1qGtt081Ztq.png?v=1788104355
 
-<body>
+12.
+https://cdn.shopify.com/s/files/1/0809/9184/6641/files/yjqLyA31MG3Cmg8.png?v=1788104355
 
-<!-- =======================================================
-     LOADER
-======================================================= -->
+13.
+https://cdn.shopify.com/s/files/1/0809/9184/6641/files/HE4xiuV5cIowZlU.png?v=1788104355
 
-<div id="loader" aria-hidden="true">
-  <div class="lw">
-    <span>JOLY.BELL</span>
+14.
+https://cdn.shopify.com/s/files/1/0809/9184/6641/files/kbivHJEJMT0blfl.png?v=1788104354
 
-    <div class="bar">
-      <span id="loaderBar"></span>
-    </div>
-  </div>
-</div>
+15.
+https://cdn.shopify.com/s/files/1/0809/9184/6641/files/b73i43xzboEwGIe.png?v=1788104355
 
+16.
+https://cdn.shopify.com/s/files/1/0809/9184/6641/files/7iKxPBc41etfDkc.png?v=1788104359
 
-<!-- =======================================================
-     CURSOR
-======================================================= -->
+17.
+https://cdn.shopify.com/s/files/1/0809/9184/6641/files/6gn2E4Dw1SMvlus.png?v=1788104359
 
-<div
-  class="cursor-dot"
-  id="cursorDot"
-  aria-hidden="true">
-</div>
+18.
+https://cdn.shopify.com/s/files/1/0809/9184/6641/files/a2axwHQ5GQzncqH.png?v=1788104359
 
+19.
+https://cdn.shopify.com/s/files/1/0809/9184/6641/files/EjMVsROlW3lsKWb.png?v=1788104359
 
-<!-- =======================================================
-     NAV
-======================================================= -->
+20.
+https://cdn.shopify.com/s/files/1/0809/9184/6641/files/PN8Dl77N0ngdsFk.png?v=1788104359
 
-<header class="site-nav">
+21.
+https://cdn.shopify.com/s/files/1/0809/9184/6641/files/XLhrO1vNnPewnoq.png?v=1788104359
 
-  <a href="#hero" class="nav-mark">
-    JOLY.BELL
-  </a>
+---
 
-  <nav
-    class="nav-links"
-    aria-label="Section navigation">
+# 17. ОЧЕНЬ ВАЖНО: НЕ УДАЛЯЙ ФОТОГРАФИИ
 
-    <a href="#lab">Lab</a>
-    <a href="#proof">Reviews</a>
-    <a href="#offer">Buy</a>
-    <a href="#faq">FAQ</a>
+Я специально дал тебе 21 изображения.
 
-  </nav>
+Используй их максимально разумно.
 
-  <span class="nav-index mono">
-    OBJECT 01
-  </span>
+Не нужно обязательно использовать все 21 одновременно на первом экране.
 
-</header>
+Но распределяй их по всему landing page.
 
+Если какая-то фотография лучше подходит для другой секции — перенеси её туда.
 
-<main>
+Не привязывайся к текущему placeholder mapping.
 
+---
 
-<!-- =======================================================
-     01 — HERO
-======================================================= -->
+# 18. НЕ МЕНЯЙ КОНТЕНТ БЕЗ НЕОБХОДИМОСТИ
 
-<section id="hero" aria-label="Intro">
+Не переписывай:
 
-  <div class="ph ph-1"></div>
+- название JOLY.BELL;
+- структуру секций;
+- заголовки;
+- navigation;
+- CTA;
+- FAQ;
+- product information.
 
-  <div class="hero-fade"></div>
+Главная задача сейчас:
 
-  <div class="hero-top">
+**IMAGE ART DIRECTION + IMAGE PRESENTATION.**
 
-    <span class="mono">
-      JOLY.BELL / EST. 2025
-    </span>
+Если видишь очевидную визуальную проблему — можешь исправить её.
 
-    <span class="mono obj-label">
-      MILITARY&nbsp;FULL — OBJECT&nbsp;01
-    </span>
+Но не превращай задачу в полный redesign.
 
-  </div>
+---
 
+# 19. УБЕРИ ВСЕ BACKSLASH-ОШИБКИ
 
-  <div class="hero-content">
+Если в переданном коде встречаются такие конструкции:
 
-    <h1
-      class="h1-brand"
-      id="heroTitle"
-      aria-label="JOLY.BELL">
+```html
+\<html>
+```
 
-      <span>JOLY.BELL</span>
+или:
 
-    </h1>
+```css
+\--black
+```
 
+или:
 
-    <p
-      class="hero-sub"
-      id="heroSub">
+```js
+window\.innerHeight
+```
 
-      One bag, built for everything you carry and everywhere you carry it.
-      No excess. No compromise.
+или:
 
-    </p>
+```html
+\<!--
+```
 
+это НЕ должно попасть в финальный HTML.
 
-    <div class="hero-meta">
+Верни нормальный валидный HTML/CSS/JS без этих escape-символов.
 
-      <a
-        href="#offer"
-        class="cta">
+---
 
-        BUY NOW
+# 20. ФИНАЛЬНЫЙ РЕЗУЛЬТАТ
 
-      </a>
+Верни мне **полный готовый `index.html` целиком**, а не только отдельные CSS-фрагменты.
 
+Я хочу просто заменить старый файл новым.
 
-      <div class="scroll-cue">
+Не говори мне:
 
-        <span>
-          SCROLL TO EXPLORE
-        </span>
+> "добавь этот CSS"
 
-        <div class="stick">
-          <i></i>
-        </div>
+или
 
-      </div>
+> "замени этот кусок".
 
-    </div>
+Сделай всю работу сам.
 
-  </div>
+Сохрани:
 
-</section>
+- GSAP;
+- ScrollTrigger;
+- animations;
+- navigation;
+- responsive layout;
+- typography;
+- 11 sections;
+- footer;
+- FAQ;
+- CTA;
+- existing interactions.
 
+Но полностью улучши работу с фотографиями.
 
-<!-- =======================================================
-     02 — PROBLEM
-======================================================= -->
+---
 
-<section
-  id="problem"
-  aria-label="The problem">
+## ГЛАВНЫЙ ВИЗУАЛЬНЫЙ ПРИНЦИП
 
-  <div class="wrap">
+Запомни:
 
-    <div class="lines">
+**НЕ "как заполнить блок фотографией".**
 
-      <div class="line-op">
-        EVERYDAY
-      </div>
+А:
 
-      <div class="line-op">
-        SHOULDN'T
-      </div>
+**"как представить фотографию и продукт максимально красиво".**
 
-      <div class="line-op">
-        MEAN
-      </div>
+Фотография не должна подстраиваться под контейнер ценой потери содержимого.
 
-      <div class="line-op">
-        ORDINARY.
-      </div>
+Контейнер должен подстраиваться под фотографию настолько, насколько это возможно.
 
-    </div>
+Я хочу увидеть:
 
+**FULL PRODUCT + AIR + SCALE + COMPOSITION**
 
-    <div class="sub-lines">
+а не:
 
-      <p>
-        TOO MUCH TO CARRY.
-      </p>
-
-      <p>
-        TOO LITTLE TO ORGANIZE.
-      </p>
-
-      <p>
-        NOTHING TO REMEMBER.
-      </p>
-
-    </div>
-
-
-    <p class="final-line">
-      SO WE BUILT OUR OWN.
-    </p>
-
-  </div>
-
-</section>
-
-
-<!-- =======================================================
-     03 — PRODUCT REVEAL
-======================================================= -->
-
-<section
-  id="reveal"
-  aria-label="Product reveal">
-
-  <div class="wrap">
-
-    <span class="eyebrow">
-
-      <span class="dash"></span>
-
-      OBJECT 01
-
-    </span>
-
-
-    <div
-      class="panels"
-      id="revealPanels">
-
-      <div class="panel ph ph-3a"></div>
-
-      <div class="panel ph ph-3b"></div>
-
-      <div class="panel ph ph-3c"></div>
-
-    </div>
-
-
-    <div class="after-text">
-
-      <h3>
-        ONE OBJECT.
-        <br>
-        MANY PURPOSES.
-      </h3>
-
-      <span class="mono">
-        CITY / TRAVEL / EVERYDAY
-      </span>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- =======================================================
-     04 — BENEFITS
-======================================================= -->
-
-<section
-  id="benefits"
-  aria-label="Why Military Full">
-
-  <div class="wrap">
-
-    <div class="benefits-grid">
-
-
-      <div class="benefits-left">
-
-        <h2>
-          WHY
-          <br>
-          MILITARY FULL
-        </h2>
-
-
-        <div
-          class="benefit-states"
-          id="benefitStates">
-
-
-          <div
-            class="benefit-state"
-            data-i="0">
-
-            <div class="num mono">
-              01 — CAPACITY
-            </div>
-
-            <h3>
-              Room for a full day.
-            </h3>
-
-            <p>
-              A single main compartment sized for a laptop,
-              a change of clothes, and everything between —
-              without the bag ever looking overstuffed.
-            </p>
-
-          </div>
-
-
-          <div
-            class="benefit-state"
-            data-i="1">
-
-            <div class="num mono">
-              02 — STRUCTURE
-            </div>
-
-            <h3>
-              Shape that holds.
-            </h3>
-
-            <p>
-              An internal frame keeps its form empty or full,
-              so the bag never collapses into a shapeless sack
-              on your back.
-            </p>
-
-          </div>
-
-
-          <div
-            class="benefit-state"
-            data-i="2">
-
-            <div class="num mono">
-              03 — DURABILITY
-            </div>
-
-            <h3>
-              Built past the warranty.
-            </h3>
-
-            <p>
-              Reinforced stitching and abrasion-tested fabric
-              at every stress point — the parts that fail first
-              on other bags.
-            </p>
-
-          </div>
-
-
-          <div
-            class="benefit-state"
-            data-i="3">
-
-            <div class="num mono">
-              04 — IDENTITY
-            </div>
-
-            <h3>
-              Recognizable, not branded.
-            </h3>
-
-            <p>
-              No logos shouting from across the room.
-              The silhouette does the talking — quiet,
-              industrial, unmistakably its own.
-            </p>
-
-          </div>
-
-
-        </div>
-
-      </div>
-
-
-      <div
-        class="benefit-visual"
-        id="benefitVisual">
-
-        <div class="benefit-visual-inner">
-
-          <div
-            class="ph ph-4"
-            id="benefitPh">
-          </div>
-
-        </div>
-
-      </div>
-
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- =======================================================
-     05 — PRODUCT LAB
-======================================================= -->
-
-<section
-  id="lab"
-  aria-label="Product details">
-
-  <div class="wrap">
-
-    <span class="eyebrow">
-
-      <span class="dash"></span>
-
-      PRODUCT LAB
-
-    </span>
-
-
-    <h2>
-      Every detail earns its place.
-    </h2>
-
-
-    <div
-      class="lab-stage"
-      id="labStage">
-
-
-      <div class="ph ph-5"></div>
-
-
-      <div
-        class="lab-point"
-        style="left:28%;top:22%"
-        data-lbl="MAIN COMPARTMENT"
-        data-num="01">
-
-        <div class="dot"></div>
-        <div class="ring"></div>
-
-        <div class="lbl">
-
-          <span class="ln"></span>
-
-          <span class="num mono">
-            01
-          </span>
-
-          <span>
-            MAIN COMPARTMENT
-          </span>
-
-        </div>
-
-      </div>
-
-
-      <div
-        class="lab-point"
-        style="left:68%;top:34%"
-        data-lbl="FRONT POCKET"
-        data-num="02">
-
-        <div class="dot"></div>
-        <div class="ring"></div>
-
-        <div class="lbl">
-
-          <span class="ln"></span>
-
-          <span class="num mono">
-            02
-          </span>
-
-          <span>
-            FRONT POCKET
-          </span>
-
-        </div>
-
-      </div>
-
-
-      <div
-        class="lab-point"
-        style="left:40%;top:64%"
-        data-lbl="STRAPS"
-        data-num="03">
-
-        <div class="dot"></div>
-        <div class="ring"></div>
-
-        <div class="lbl">
-
-          <span class="ln"></span>
-
-          <span class="num mono">
-            03
-          </span>
-
-          <span>
-            STRAPS
-          </span>
-
-        </div>
-
-      </div>
-
-
-      <div
-        class="lab-point"
-        style="left:74%;top:70%"
-        data-lbl="ZIPPER"
-        data-num="04">
-
-        <div class="dot"></div>
-        <div class="ring"></div>
-
-        <div class="lbl">
-
-          <span class="ln"></span>
-
-          <span class="num mono">
-            04
-          </span>
-
-          <span>
-            ZIPPER
-          </span>
-
-        </div>
-
-      </div>
-
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- =======================================================
-     06 — MATERIAL
-======================================================= -->
-
-<section
-  id="material"
-  aria-label="Materials and details">
-
-  <div class="wrap">
-
-    <span class="eyebrow">
-
-      <span class="dash"></span>
-
-      MATERIAL
-
-    </span>
-
-
-    <h2>
-      DETAILS MATTER.
-    </h2>
-
-
-    <div class="material-row">
-
-
-      <div class="material-cell">
-
-        <div
-          class="ph ph-6a"
-          data-mat>
-        </div>
-
-        <span class="cap">
-          INTERIOR
-        </span>
-
-      </div>
-
-
-      <div class="material-cell">
-
-        <div
-          class="ph ph-6b"
-          data-mat>
-        </div>
-
-        <span class="cap">
-          LOGO / HARDWARE
-        </span>
-
-      </div>
-
-
-      <div class="material-cell">
-
-        <div
-          class="ph ph-6c"
-          data-mat>
-        </div>
-
-        <span class="cap">
-          CONSTRUCTION
-        </span>
-
-      </div>
-
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- =======================================================
-     07 — SOCIAL PROOF / LIFESTYLE
-======================================================= -->
-
-<section
-  id="proof"
-  aria-label="Customer reviews">
-
-  <div class="wrap">
-
-    <h2>
-      WHAT PEOPLE SAY
-    </h2>
-
-
-    <div class="proof-row">
-
-
-      <div class="proof-card">
-
-        <div class="ph ph-7a"></div>
-
-        <div class="proof-num mono">
-          01
-        </div>
-
-        <p class="proof-quote">
-          "YOUR REVIEW HERE."
-        </p>
-
-        <p class="proof-meta">
-          NAME / CITY — placeholder, real review to follow
-        </p>
-
-      </div>
-
-
-      <div class="proof-card">
-
-        <div class="ph ph-7b"></div>
-
-        <div class="proof-num mono">
-          02
-        </div>
-
-        <p class="proof-quote">
-          "YOUR REVIEW HERE."
-        </p>
-
-        <p class="proof-meta">
-          NAME / CITY — placeholder, real review to follow
-        </p>
-
-      </div>
-
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- =======================================================
-     08 — OFFER
-======================================================= -->
-
-<section
-  id="offer"
-  aria-label="Buy Military Full">
-
-  <div class="wrap">
-
-    <div class="offer-grid">
-
-
-      <div class="offer-visual ph ph-8"></div>
-
-
-      <div>
-
-        <div class="offer-name">
-          MILITARY FULL
-        </div>
-
-        <div class="offer-obj mono">
-          OBJECT 01
-        </div>
-
-        <div class="offer-price">
-          $XXX
-        </div>
-
-        <div class="offer-avail mono">
-          AVAILABLE NOW
-        </div>
-
-
-        <div class="offer-list">
-
-          <div>
-            <span>WHAT'S INCLUDED</span>
-            <span></span>
-          </div>
-
-          <div>
-            <span>Military Full backpack</span>
-            <span>×1</span>
-          </div>
-
-          <div>
-            <span>JOLY.BELL packaging</span>
-            <span>×1</span>
-          </div>
-
-          <div>
-            <span>Worldwide shipping</span>
-            <span>INC.</span>
-          </div>
-
-        </div>
-
-
-        <a
-          href="#"
-          class="big-cta">
-
-          <span>
-            BUY NOW
-          </span>
-
-          <span>
-            →
-          </span>
-
-        </a>
-
-      </div>
-
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- =======================================================
-     09 — COMPARISON
-======================================================= -->
-
-<section
-  id="compare"
-  aria-label="Comparison">
-
-  <div class="wrap">
-
-    <h2>
-      NOT A STANDARD BACKPACK.
-    </h2>
-
-
-    <div class="compare-split">
-
-
-      <div class="compare-col">
-
-        <div class="ph ph-9a"></div>
-
-        <h3>
-          JOLY.BELL
-        </h3>
-
-
-        <div class="compare-row">
-          <span class="label">DESIGN</span>
-          <span class="mark yes">✓</span>
-        </div>
-
-        <div class="compare-row">
-          <span class="label">MATERIAL</span>
-          <span class="mark yes">✓</span>
-        </div>
-
-        <div class="compare-row">
-          <span class="label">STORAGE</span>
-          <span class="mark yes">✓</span>
-        </div>
-
-        <div class="compare-row">
-          <span class="label">CONSTRUCTION</span>
-          <span class="mark yes">✓</span>
-        </div>
-
-        <div class="compare-row">
-          <span class="label">IDENTITY</span>
-          <span class="mark yes">✓</span>
-        </div>
-
-      </div>
-
-
-      <div class="compare-col">
-
-        <div class="ph ph-9b"></div>
-
-        <h3>
-          MILITARY FULL
-        </h3>
-
-
-        <div class="compare-row">
-          <span class="label">DESIGN</span>
-          <span class="mark yes">✓</span>
-        </div>
-
-        <div class="compare-row">
-          <span class="label">MATERIAL</span>
-          <span class="mark yes">✓</span>
-        </div>
-
-        <div class="compare-row">
-          <span class="label">STORAGE</span>
-          <span class="mark yes">✓</span>
-        </div>
-
-        <div class="compare-row">
-          <span class="label">CONSTRUCTION</span>
-          <span class="mark yes">✓</span>
-        </div>
-
-        <div class="compare-row">
-          <span class="label">IDENTITY</span>
-          <span class="mark yes">✓</span>
-        </div>
-
-      </div>
-
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- =======================================================
-     10 — FAQ
-======================================================= -->
-
-<section
-  id="faq"
-  aria-label="Frequently asked questions">
-
-  <div class="wrap">
-
-    <h2>
-      QUESTIONS?
-    </h2>
-
-
-    <div id="faqList">
-
-
-      <div class="faq-item">
-
-        <button
-          class="faq-q"
-          aria-expanded="false">
-
-          <span class="qnum">
-            01
-          </span>
-
-          <span class="qtxt">
-            Does it fit a laptop?
-          </span>
-
-          <span class="faq-toggle">
-            <i class="h"></i>
-            <i class="v"></i>
-          </span>
-
-        </button>
-
-        <div class="faq-a">
-
-          <p>
-            Yes — the main compartment holds laptops up to
-            16 inches in a padded, separated sleeve.
-          </p>
-
-        </div>
-
-      </div>
-
-
-      <div class="faq-item">
-
-        <button
-          class="faq-q"
-          aria-expanded="false">
-
-          <span class="qnum">
-            02
-          </span>
-
-          <span class="qtxt">
-            What material is used?
-          </span>
-
-          <span class="faq-toggle">
-            <i class="h"></i>
-            <i class="v"></i>
-          </span>
-
-        </button>
-
-        <div class="faq-a">
-
-          <p>
-            A water-resistant technical shell with reinforced
-            base panels, finished with matte metal hardware.
-          </p>
-
-        </div>
-
-      </div>
-
-
-      <div class="faq-item">
-
-        <button
-          class="faq-q"
-          aria-expanded="false">
-
-          <span class="qnum">
-            03
-          </span>
-
-          <span class="qtxt">
-            How do I care for it?
-          </span>
-
-          <span class="faq-toggle">
-            <i class="h"></i>
-            <i class="v"></i>
-          </span>
-
-        </button>
-
-        <div class="faq-a">
-
-          <p>
-            Spot clean with a damp cloth. Avoid machine washing
-            to protect the internal structure and hardware.
-          </p>
-
-        </div>
-
-      </div>
-
-
-      <div class="faq-item">
-
-        <button
-          class="faq-q"
-          aria-expanded="false">
-
-          <span class="qnum">
-            04
-          </span>
-
-          <span class="qtxt">
-            Where do you ship?
-          </span>
-
-          <span class="faq-toggle">
-            <i class="h"></i>
-            <i class="v"></i>
-          </span>
-
-        </button>
-
-        <div class="faq-a">
-
-          <p>
-            Worldwide. Duties and import fees, where applicable,
-            are calculated at checkout.
-          </p>
-
-        </div>
-
-      </div>
-
-
-      <div class="faq-item">
-
-        <button
-          class="faq-q"
-          aria-expanded="false">
-
-          <span class="qnum">
-            05
-          </span>
-
-          <span class="qtxt">
-            How long does shipping take?
-          </span>
-
-          <span class="faq-toggle">
-            <i class="h"></i>
-            <i class="v"></i>
-          </span>
-
-        </button>
-
-        <div class="faq-a">
-
-          <p>
-            3–6 business days domestically, 7–14 business
-            days for international orders.
-          </p>
-
-        </div>
-
-      </div>
-
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- =======================================================
-     11 — FINAL CTA
-======================================================= -->
-
-<section
-  id="final"
-  aria-label="Final call to action">
-
-  <div class="ph ph-11"></div>
-
-  <div class="final-fade"></div>
-
-
-  <div class="final-content">
-
-    <h2 class="fw">
-      <span>MILITARY</span>
-    </h2>
-
-    <h2 class="fw">
-      <span>FULL</span>
-    </h2>
-
-    <p class="final-tag">
-      CARRY YOUR WORLD. MAKE IT YOURS.
-    </p>
-
-    <p class="final-price">
-      $XXX
-    </p>
-
-    <a
-      href="#offer"
-      class="cta">
-
-      BUY NOW →
-
-    </a>
-
-  </div>
-
-</section>
-
-
-<!-- =======================================================
-     OUTRO
-======================================================= -->
-
-<div id="outro">
-
-  <div class="mark">
-    JOLY.BELL
-  </div>
-
-  <div class="mono">
-    EST. 2025
-  </div>
-
-  <div class="mono">
-    OBJECT 01 / MILITARY FULL
-  </div>
-
-</div>
-
-
-</main>
-
-
-<!-- =======================================================
-     FOOTER
-======================================================= -->
-
-<footer class="site-foot">
-
-  <span>
-    JOLY.BELL © 2025
-  </span>
-
-  <span>
-    MILITARY FULL / OBJECT 01
-  </span>
-
-</footer>
-
-
-<!-- =======================================================
-     GSAP
-======================================================= -->
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-
-
-<script>
-
-(function(){
-
-"use strict";
-
-
-/* =========================================================
-   GLOBAL
-========================================================= */
-
-var reduceMotion =
-  window.matchMedia(
-    '(prefers-reduced-motion: reduce)'
-  ).matches;
-
-var isTouch =
-  matchMedia('(hover:none)').matches ||
-  'ontouchstart' in window;
-
-
-/* =========================================================
-   VIEWPORT HEIGHT
-========================================================= */
-
-function setVH(){
-
-  document.documentElement.style.setProperty(
-    '--vh',
-    (window.innerHeight * 0.01) + 'px'
-  );
-
-}
-
-setVH();
-
-window.addEventListener(
-  'resize',
-  setVH
-);
-
-
-/* =========================================================
-   LOADER
-========================================================= */
-
-var loader =
-  document.getElementById('loader');
-
-var bar =
-  document.getElementById('loaderBar');
-
-
-function finishLoad(){
-
-  if(!loader){
-    return;
-  }
-
-  loader.style.transition =
-    'opacity .6s ease';
-
-  loader.style.opacity = '0';
-
-  setTimeout(function(){
-
-    loader.style.display = 'none';
-
-    runHeroIntro();
-
-  },600);
-
-}
-
-
-if(
-  !reduceMotion &&
-  bar &&
-  window.gsap
-){
-
-  gsap.to(
-    bar,
-    {
-      width:'100%',
-      duration:1.1,
-      ease:'power2.inOut',
-      onComplete:finishLoad
-    }
-  );
-
-}else{
-
-  if(bar){
-    bar.style.width='100%';
-  }
-
-  setTimeout(
-    finishLoad,
-    reduceMotion ? 50 : 500
-  );
-
-}
-
-
-/* =========================================================
-   CUSTOM CURSOR
-========================================================= */
-
-var dot =
-  document.getElementById('cursorDot');
-
-
-if(dot && !isTouch){
-
-  window.addEventListener(
-    'mousemove',
-    function(e){
-
-      dot.style.left =
-        e.clientX + 'px';
-
-      dot.style.top =
-        e.clientY + 'px';
-
-    }
-  );
-
-
-  document
-    .querySelectorAll('a, button')
-    .forEach(function(el){
-
-      el.addEventListener(
-        'mouseenter',
-        function(){
-
-          dot.classList.add('big');
-
-        }
-      );
-
-      el.addEventListener(
-        'mouseleave',
-        function(){
-
-          dot.classList.remove('big');
-
-        }
-      );
-
-    });
-
-}else if(dot){
-
-  dot.style.display='none';
-
-}
-
-
-/* =========================================================
-   GSAP GUARD
-========================================================= */
-
-if(
-  !window.gsap ||
-  !window.ScrollTrigger
-){
-
-  return;
-
-}
-
-gsap.registerPlugin(
-  ScrollTrigger
-);
-
-
-/* =========================================================
-   HERO
-========================================================= */
-
-function runHeroIntro(){
-
-  if(reduceMotion){
-
-    document
-      .querySelectorAll('#heroTitle span')
-      .forEach(function(s){
-
-        s.style.transform='none';
-
-      });
-
-
-    var sub =
-      document.getElementById('heroSub');
-
-    if(sub){
-      sub.style.opacity=1;
-    }
-
-
-    document
-      .querySelectorAll('.scroll-cue')
-      .forEach(function(s){
-
-        s.style.opacity=1;
-
-      });
-
-    return;
-
-  }
-
-
-  var tl =
-    gsap.timeline({
-      defaults:{
-        ease:'power3.out'
-      }
-    });
-
-
-  tl.from(
-    '#hero .ph-1',
-    {
-      opacity:0,
-      scale:1.12,
-      filter:'blur(14px)',
-      duration:1.3
-    }
-  )
-
-  .to(
-    '#heroTitle span',
-    {
-      y:0,
-      duration:1.05,
-      ease:'power4.out'
-    },
-    '-=0.6'
-  )
-
-  .to(
-    '#heroSub',
-    {
-      opacity:1,
-      duration:.8
-    },
-    '-=.5'
-  )
-
-  .to(
-    '.scroll-cue',
-    {
-      opacity:1,
-      duration:.6
-    },
-    '-=.4'
-  );
-
-
-  gsap.to(
-    '#hero .ph-1',
-    {
-      yPercent:14,
-      ease:'none',
-      scrollTrigger:{
-        trigger:'#hero',
-        start:'top top',
-        end:'bottom top',
-        scrub:true
-      }
-    }
-  );
-
-}
-
-
-/* =========================================================
-   PROBLEM
-========================================================= */
-
-gsap.set(
-  '.line-op',
-  {
-    opacity:.18
-  }
-);
-
-
-ScrollTrigger.batch(
-  '.line-op',
-  {
-
-    start:'top 78%',
-
-    onEnter:function(els){
-
-      els.forEach(function(el){
-
-        el.classList.add('on');
-
-        gsap.to(
-          el,
-          {
-            opacity:1,
-            x:0,
-            duration:.8,
-            ease:'power3.out'
-          }
-        );
-
-      });
-
-    },
-
-
-    onLeaveBack:function(els){
-
-      els.forEach(function(el){
-
-        el.classList.remove('on');
-
-        gsap.to(
-          el,
-          {
-            opacity:.18,
-            duration:.5
-          }
-        );
-
-      });
-
-    }
-
-  }
-);
-
-
-gsap.from(
-  '#problem .sub-lines p',
-  {
-    opacity:0,
-    y:20,
-    duration:.7,
-    stagger:.12,
-    ease:'power2.out',
-    scrollTrigger:{
-      trigger:'#problem .sub-lines',
-      start:'top 80%'
-    }
-  }
-);
-
-
-gsap.from(
-  '#problem .final-line',
-  {
-    opacity:0,
-    y:24,
-    filter:'blur(6px)',
-    duration:.9,
-    ease:'power2.out',
-    scrollTrigger:{
-      trigger:'#problem .final-line',
-      start:'top 88%'
-    }
-  }
-);
-
-
-/* =========================================================
-   PRODUCT REVEAL
-========================================================= */
-
-var revealTl =
-  gsap.timeline({
-
-    scrollTrigger:{
-      trigger:'#reveal',
-      start:'top 60%',
-      end:'top 10%',
-      scrub:1
-    }
-
-  });
-
-
-revealTl
-
-  .to(
-    '#revealPanels .panel:nth-child(1)',
-    {
-      xPercent:-6,
-      duration:1
-    },
-    0
-  )
-
-  .to(
-    '#revealPanels .panel:nth-child(3)',
-    {
-      xPercent:6,
-      duration:1
-    },
-    0
-  )
-
-  .to(
-    '#revealPanels .panel',
-    {
-      scale:1.02,
-      duration:1
-    },
-    0
-  );
-
-
-gsap.from(
-  '#reveal .after-text h3',
-  {
-    opacity:0,
-    y:30,
-    duration:.9,
-    ease:'power2.out',
-    scrollTrigger:{
-      trigger:'#reveal .after-text',
-      start:'top 85%'
-    }
-  }
-);
-
-
-/* =========================================================
-   BENEFITS
-========================================================= */
-
-(function(){
-
-  var isMobile =
-    window.innerWidth <= 900;
-
-  var states =
-    gsap.utils.toArray(
-      '.benefit-state'
-    );
-
-  var phEl =
-    document.getElementById(
-      'benefitPh'
-    );
-
-
-  /*
-    REAL IMAGES FOR THE FOUR STATES
-  */
-
-  var images = [
-
-    'https://cdn.shopify.com/s/files/1/0809/9184/6641/files/Tn1Z3U5CRpbQYw1.png?v=1788104348',
-
-    'https://cdn.shopify.com/s/files/1/0809/9184/6641/files/n1HhP6Dh3O4zGK9.png?v=1788104348',
-
-    'https://cdn.shopify.com/s/files/1/0809/9184/6641/files/7iKxPBc41etfDkc.png?v=1788104359',
-
-    'https://cdn.shopify.com/s/files/1/0809/9184/6641/files/v0rC835rocfVqA3.png?v=1788104355'
-
-  ];
-
-
-  if(isMobile){
-
-    states.forEach(
-      function(s,i){
-
-        if(i===0){
-
-          s.classList.add(
-            'mobile-on'
-          );
-
-        }
-
-      }
-    );
-
-    return;
-
-  }
-
-
-  gsap.set(
-    states[0],
-    {
-      opacity:1,
-      y:0
-    }
-  );
-
-
-  var st =
-    ScrollTrigger.create({
-
-      trigger:'#benefitVisual',
-
-      start:'top top',
-
-      end:'bottom bottom',
-
-      onUpdate:function(self){
-
-        var idx =
-          Math.min(
-            states.length-1,
-            Math.floor(
-              self.progress *
-              states.length
-            )
-          );
-
-
-        states.forEach(
-          function(s,i){
-
-            if(i===idx){
-
-              gsap.to(
-                s,
-                {
-                  opacity:1,
-                  y:0,
-                  duration:.4,
-                  ease:'power2.out'
-                }
-              );
-
-            }else{
-
-              gsap.to(
-                s,
-                {
-                  opacity:0,
-                  y:i < idx
-                    ? -16
-                    : 16,
-                  duration:.3,
-                  ease:'power2.out'
-                }
-              );
-
-            }
-
-          }
-        );
-
-
-        phEl.style.backgroundImage =
-          'url("' +
-          images[idx] +
-          '")';
-
-
-        gsap.fromTo(
-          phEl,
-          {
-            scale:1.08
-          },
-          {
-            scale:1,
-            duration:.6,
-            ease:'power2.out',
-            overwrite:'auto'
-          }
-        );
-
-      }
-
-    });
-
-})();
-
-
-/* =========================================================
-   PRODUCT LAB
-========================================================= */
-
-var labPoints =
-  gsap.utils.toArray(
-    '.lab-point'
-  );
-
-
-ScrollTrigger.batch(
-  labPoints,
-  {
-
-    start:'top 82%',
-
-    onEnter:function(els){
-
-      els.forEach(
-        function(el,i){
-
-          gsap.delayedCall(
-            i*.15,
-            function(){
-
-              el.classList.add(
-                'active'
-              );
-
-            }
-          );
-
-        }
-      );
-
-    }
-
-  }
-);
-
-
-if(!isTouch){
-
-  labPoints.forEach(
-    function(p){
-
-      p.addEventListener(
-        'mouseenter',
-        function(){
-
-          p.classList.add(
-            'active'
-          );
-
-        }
-      );
-
-
-      p.addEventListener(
-        'mouseleave',
-        function(){
-
-          p.classList.remove(
-            'active'
-          );
-
-        }
-      );
-
-    }
-  );
-
-}
+**CROP + ZOOM + EDGES CUT OFF.**
 
+Сайт должен выглядеть как дорогая fashion campaign / product presentation JOLY.BELL, а не как стандартный Shopify product page.
 
-gsap.from(
-  '#labStage',
-  {
-    opacity:0,
-    scale:.97,
-    duration:1,
-    ease:'power2.out',
-    scrollTrigger:{
-      trigger:'#labStage',
-      start:'top 80%'
-    }
-  }
-);
-
-
-/* =========================================================
-   MATERIAL
-========================================================= */
-
-gsap.utils
-  .toArray('.material-cell')
-  .forEach(function(cell,i){
-
-    var img =
-      cell.querySelector(
-        '[data-mat]'
-      );
-
-
-    gsap.fromTo(
-      img,
-      {
-        scale:1.7
-      },
-      {
-        scale:1,
-        ease:'none',
-        scrollTrigger:{
-          trigger:cell,
-          start:'top bottom',
-          end:'bottom top',
-          scrub:1
-        }
-      }
-    );
-
-
-    gsap.from(
-      cell,
-      {
-        opacity:0,
-        y:24,
-        duration:.7,
-        delay:i*.05,
-        scrollTrigger:{
-          trigger:cell,
-          start:'top 90%'
-        }
-      }
-    );
-
-  });
-
-
-/* =========================================================
-   SOCIAL PROOF
-========================================================= */
-
-gsap.utils
-  .toArray('.proof-card')
-  .forEach(function(card,i){
-
-    gsap.from(
-      card,
-      {
-        opacity:0,
-        y:40,
-        duration:.8,
-        ease:'power2.out',
-        delay:i*.08,
-        scrollTrigger:{
-          trigger:card,
-          start:'top 85%'
-        }
-      }
-    );
-
-  });
-
-
-/* =========================================================
-   OFFER
-========================================================= */
-
-gsap.from(
-  '#offer .offer-visual',
-  {
-    opacity:0,
-    scale:.95,
-    duration:.9,
-    ease:'power2.out',
-    scrollTrigger:{
-      trigger:'#offer',
-      start:'top 75%'
-    }
-  }
-);
-
-
-gsap.from(
-  '#offer .offer-list div',
-  {
-    opacity:0,
-    x:-16,
-    duration:.5,
-    stagger:.06,
-    scrollTrigger:{
-      trigger:'#offer .offer-list',
-      start:'top 85%'
-    }
-  }
-);
-
-
-/* =========================================================
-   COMPARISON
-========================================================= */
-
-gsap.from(
-  '.compare-col',
-  {
-    opacity:0,
-    y:30,
-    duration:.8,
-    stagger:.15,
-    ease:'power2.out',
-    scrollTrigger:{
-      trigger:'#compare',
-      start:'top 75%'
-    }
-  }
-);
-
-
-/* =========================================================
-   FAQ
-========================================================= */
-
-document
-  .querySelectorAll('.faq-item')
-  .forEach(function(item){
-
-    var q =
-      item.querySelector(
-        '.faq-q'
-      );
-
-    var a =
-      item.querySelector(
-        '.faq-a'
-      );
-
-
-    q.addEventListener(
-      'click',
-      function(){
-
-        var isOpen =
-          item.classList.contains(
-            'open'
-          );
-
-
-        document
-          .querySelectorAll(
-            '.faq-item.open'
-          )
-          .forEach(
-            function(openItem){
-
-              if(openItem !== item){
-
-                openItem.classList.remove(
-                  'open'
-                );
-
-                openItem
-                  .querySelector(
-                    '.faq-q'
-                  )
-                  .setAttribute(
-                    'aria-expanded',
-                    'false'
-                  );
-
-
-                var oa =
-                  openItem.querySelector(
-                    '.faq-a'
-                  );
-
-
-                gsap.to(
-                  oa,
-                  {
-                    height:0,
-                    opacity:0,
-                    duration:.4,
-                    ease:'power2.inOut'
-                  }
-                );
-
-              }
-
-            }
-          );
-
-
-        if(isOpen){
-
-          item.classList.remove(
-            'open'
-          );
-
-          q.setAttribute(
-            'aria-expanded',
-            'false'
-          );
-
-
-          gsap.to(
-            a,
-            {
-              height:0,
-              opacity:0,
-              duration:.4,
-              ease:'power2.inOut'
-            }
-          );
-
-
-        }else{
-
-          item.classList.add(
-            'open'
-          );
-
-          q.setAttribute(
-            'aria-expanded',
-            'true'
-          );
-
-
-          gsap.set(
-            a,
-            {
-              height:'auto'
-            }
-          );
-
-
-          var h =
-            a.offsetHeight;
-
-
-          gsap.fromTo(
-            a,
-            {
-              height:0,
-              opacity:0
-            },
-            {
-              height:h,
-              opacity:1,
-              duration:.45,
-              ease:'power2.inOut'
-            }
-          );
-
-        }
-
-      }
-    );
-
-  });
-
-
-/* =========================================================
-   FINAL CTA
-========================================================= */
-
-gsap.from(
-  '#final .fw span',
-  {
-    y:'110%',
-    duration:1,
-    stagger:.12,
-    ease:'power4.out',
-    scrollTrigger:{
-      trigger:'#final',
-      start:'top 60%'
-    }
-  }
-);
-
-
-gsap.from(
-  '#final .final-tag, #final .final-price, #final .cta',
-  {
-    opacity:0,
-    y:16,
-    duration:.7,
-    stagger:.1,
-    ease:'power2.out',
-    scrollTrigger:{
-      trigger:'#final',
-      start:'top 45%'
-    }
-  }
-);
-
-
-gsap.to(
-  '#final .ph',
-  {
-    yPercent:10,
-    ease:'none',
-    scrollTrigger:{
-      trigger:'#final',
-      start:'top bottom',
-      end:'bottom top',
-      scrub:true
-    }
-  }
-);
-
-
-/* =========================================================
-   OUTRO
-========================================================= */
-
-gsap.from(
-  '#outro .mark, #outro .mono',
-  {
-    opacity:0,
-    y:14,
-    duration:.8,
-    stagger:.08,
-    ease:'power2.out',
-    scrollTrigger:{
-      trigger:'#outro',
-      start:'top 70%'
-    }
-  }
-);
-
-
-/* =========================================================
-   REFRESH
-========================================================= */
-
-ScrollTrigger.addEventListener(
-  'refreshInit',
-  setVH
-);
-
-
-window.addEventListener(
-  'load',
-  function(){
-
-    setTimeout(
-      function(){
-
-        ScrollTrigger.refresh();
-
-      },
-      300
-    );
-
-  }
-);
-
-
-})();
-
-</script>
-
-</body>
-</html>
+Теперь возьми мой полный `index.html` ниже, проанализируй его и верни полностью исправленную версию.
